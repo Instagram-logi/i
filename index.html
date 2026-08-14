@@ -1,40 +1,680 @@
+
 <!DOCTYPE html>
 <html lang="ar">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>تسجيل الدخول</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-  <style>
-    * { margin:0; padding:0; box-sizing:border-box; font-family:system-ui, 'Segoe UI', sans-serif; }
-    body { background:#000; display:flex; justify-content:center; align-items:flex-start; min-height:100vh; margin:0; padding:0; }
-    .app-container { width:100%; max-width:796px; min-height:100vh; background:#0C0F14; display:flex; flex-direction:column; position:relative; }
-    .login-wrapper { display:flex; flex-direction:column; min-height:100vh; width:100%; }
-    .top-section { background:#0C0F14; width:100%; flex-shrink:0; padding-bottom:8px; }
-    .bottom-section { background:#000; width:100%; flex:1; min-height:60px; }
-    .language-selector { display:flex; justify-content:center; align-items:center; padding-top:28px; padding-bottom:10px; color:#a0a4ae; font-size:24px; gap:4px; }
-    .language-selector span { color:#aeb2bb; }
-    .language-selector i { font-size:20px; color:#aeb2bb; margin-left:6px; }
-    .divider-line { width:100%; height:1px; background:#1e2228; border:none; }
-    .login-form { padding:0 24px; display:flex; flex-direction:column; background:#0C0F14; flex:1; }
-    .logo-wrapper { display:flex; justify-content:center; align-items:center; margin:18px 0 20px 0; }
-    .logo-goat { width:110px; height:110px; display:flex; justify-content:center; align-items:center; }
-    .logo-goat img, .logo-goat svg { width:100%; height:100%; object-fit:contain; display:block; filter:drop-shadow(0 0 8px rgba(180,0,0,0.3)); }
-    .field-label { color:#aeb2bb; font-size:22px; font-weight:400; margin-bottom:4px; margin-top:8px; }
-    .field-label:first-of-type { margin-top:0; }
-    .input-container { width:100%; background:#25282D; border:1px solid #30343A; border-radius:2px; height:78px; display:flex; align-items:center; padding:0 16px; margin-bottom:4px; transition:border 0.15s; }
-    .input-container:focus-within { border-color:#4a5df5; }
-    .input-container input { width:100%; height:100%; background:transparent; border:none; outline:none; color:#e8ecf2; font-size:22px; padding:0; }
-    .input-container input::placeholder { color:#5a5f69; font-size:22px; font-weight:300; opacity:0.7; }
-    .password-wrapper { display:flex; align-items:center; width:100%; height:100%; }
-    .password-wrapper input { flex:1; height:100%; background:transparent; border:none; outline:none; color:#e8ecf2; font-size:22px; }
-    .password-wrapper input::placeholder { color:#5a5f69; font-size:22px; font-weight:300; opacity:0.7; }
-    .show-toggle { display:flex; align-items:center; gap:6px; color:#aeb2bb; font-size:20px; font-weight:400; cursor:default; user-select:none; flex-shrink:0; padding-left:6px; }
-    .show-toggle i { font-size:22px; color:#aeb2bb; }
-    .login-btn { width:100%; height:72px; background:#073858; border:none; border-radius:24px; color:#b0c4d9; font-size:24px; font-weight:600; letter-spacing:0.6px; margin:14px 0 6px 0; cursor:pointer; transition:background 0.3s; }
-    .login-btn.active { background:#1a7b9e; color:#fff; }
-    .login-btn:hover { background:#0a466b; }
-    .login-btn.active:hover { background:#2a8fb0; }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>نظام الشيطان السماوي</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Creepster&family=Orbitron:wght@400;700;900&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --blood: #8a0303;
+            --blood-light: #cc1111;
+            --dark: #0a0000;
+            --cosmic-purple: #6611aa;
+            --cosmic-glow: rgba(102, 17, 170, 0.3);
+            --fire: #ff4400;
+        }
+
+        body {
+            background: #000;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+        }
+
+        .app-container {
+            width: 100%;
+            max-width: 796px;
+            min-height: 100vh;
+            background: #0C0F14;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* ===== التأثيرات المرعبة السماوية ===== */
+        .heavenly-hell-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            background:
+                radial-gradient(ellipse at 20% 30%, rgba(102, 17, 170, 0.08) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 70%, rgba(200, 0, 50, 0.08) 0%, transparent 50%),
+                radial-gradient(ellipse at 50% 50%, rgba(255, 68, 0, 0.03) 0%, transparent 70%);
+            animation: heavenlyPulse 6s ease-in-out infinite;
+        }
+        @keyframes heavenlyPulse {
+            0%,
+            100% {
+                opacity: 0.6;
+            }
+            50% {
+                opacity: 1;
+            }
+        }
+
+        .glitch-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.06;
+            background:
+                repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(255, 0, 0, 0.03) 2px, rgba(255, 0, 0, 0.03) 4px),
+                repeating-linear-gradient(90deg, transparent, transparent 3px, rgba(170, 68, 255, 0.02) 3px, rgba(170, 68, 255, 0.02) 6px),
+                repeating-linear-gradient(45deg, transparent, transparent 5px, rgba(255, 68, 0, 0.01) 5px, rgba(255, 68, 0, 0.01) 7px);
+            animation: glitchMove 0.08s infinite alternate;
+        }
+        @keyframes glitchMove {
+            0% {
+                transform: translate(0, 0) skew(0deg);
+            }
+            100% {
+                transform: translate(-4px, 3px) skew(0.5deg);
+            }
+        }
+
+        .demon-god-face {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 300px;
+            color: rgba(200, 0, 50, 0.03);
+            pointer-events: none;
+            z-index: 0;
+            animation: demonGod 12s ease-in-out infinite;
+            font-family: 'Creepster', cursive;
+            text-shadow: 0 0 150px rgba(200, 0, 0, 0.08), 0 0 300px rgba(102, 17, 170, 0.05);
+            user-select: none;
+        }
+        @keyframes demonGod {
+            0%,
+            100% {
+                opacity: 0.02;
+                transform: translate(-50%, -50%) scale(0.6) rotate(0deg) skew(0deg);
+            }
+            25% {
+                opacity: 0.08;
+                transform: translate(-50%, -50%) scale(1.4) rotate(8deg) skew(2deg);
+            }
+            50% {
+                opacity: 0.04;
+                transform: translate(-50%, -50%) scale(0.7) rotate(-5deg) skew(-1deg);
+            }
+            75% {
+                opacity: 0.1;
+                transform: translate(-50%, -50%) scale(1.2) rotate(5deg) skew(1deg);
+            }
+        }
+
+        .heavenly-fire {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 30%;
+            pointer-events: none;
+            z-index: 0;
+            background: linear-gradient(0deg, rgba(200, 50, 0, 0.04) 0%, transparent 100%);
+            animation: fireFlicker 0.3s infinite alternate;
+        }
+        @keyframes fireFlicker {
+            0% {
+                opacity: 0.5;
+                transform: scaleY(1);
+            }
+            100% {
+                opacity: 1;
+                transform: scaleY(1.1);
+            }
+        }
+
+        .blood-drip {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            background: repeating-linear-gradient(0deg, transparent, transparent 50px, rgba(139, 0, 0, 0.01) 50px, rgba(139, 0, 0, 0.01) 51px);
+            animation: dripMove 4s linear infinite;
+        }
+        @keyframes dripMove {
+            0% {
+                transform: translateY(-10px);
+            }
+            100% {
+                transform: translateY(10px);
+            }
+        }
+
+        .hacker-numbers {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.015;
+            font-family: 'Orbitron', 'Courier New', monospace;
+            font-size: 11px;
+            color: #ff0044;
+            overflow: hidden;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            align-content: flex-start;
+            padding: 10px;
+            gap: 2px;
+        }
+        .hacker-numbers span {
+            animation: fallHeavenly 15s linear infinite;
+            display: inline-block;
+            width: 16px;
+            text-align: center;
+        }
+        @keyframes fallHeavenly {
+            0% {
+                transform: translateY(-100vh) rotate(0deg) scale(0);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+                transform: translateY(-80vh) rotate(36deg) scale(1);
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(100vh) rotate(720deg) scale(0);
+                opacity: 0;
+            }
+        }
+
+        .cosmic-particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+        }
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: radial-gradient(circle, rgba(200, 50, 255, 0.5), transparent);
+            border-radius: 50%;
+            animation: particleHeavenly linear infinite;
+            box-shadow: 0 0 10px rgba(200, 50, 255, 0.2);
+        }
+        @keyframes particleHeavenly {
+            0% {
+                transform: translateY(100vh) scale(0) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.9;
+            }
+            90% {
+                opacity: 0.9;
+            }
+            100% {
+                transform: translateY(-10vh) scale(1.5) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* ===== واجهة الدخول ===== */
+        .login-wrapper {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            width: 100%;
+            position: relative;
+            z-index: 1;
+        }
+        .top-section {
+            background: #0C0F14;
+            width: 100%;
+            flex-shrink: 0;
+            padding-bottom: 8px;
+        }
+        .bottom-section {
+            background: #000;
+            width: 100%;
+            flex: 1;
+            min-height: 60px;
+        }
+        .language-selector {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding-top: 28px;
+            padding-bottom: 10px;
+            color: #a0a4ae;
+            font-size: 24px;
+            gap: 4px;
+        }
+        .language-selector span {
+            color: #aeb2bb;
+        }
+        .language-selector i {
+            font-size: 20px;
+            color: #aeb2bb;
+            margin-left: 6px;
+        }
+        .divider-line {
+            width: 100%;
+            height: 1px;
+            background: #1e2228;
+            border: none;
+        }
+        .login-form {
+            padding: 0 24px;
+            display: flex;
+            flex-direction: column;
+            background: #0C0F14;
+            flex: 1;
+        }
+        .logo-wrapper {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 18px 0 20px 0;
+        }
+        .logo-goat {
+            width: 110px;
+            height: 110px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .logo-goat img,
+        .logo-goat svg {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            display: block;
+            filter: drop-shadow(0 0 30px rgba(180, 0, 0, 0.5)) drop-shadow(0 0 80px rgba(102, 17, 170, 0.2));
+        }
+        .field-label {
+            color: #aeb2bb;
+            font-size: 22px;
+            font-weight: 400;
+            margin-bottom: 4px;
+            margin-top: 8px;
+        }
+        .field-label:first-of-type {
+            margin-top: 0;
+        }
+        .input-container {
+            width: 100%;
+            background: #25282D;
+            border: 1px solid #30343A;
+            border-radius: 2px;
+            height: 78px;
+            display: flex;
+            align-items: center;
+            padding: 0 16px;
+            margin-bottom: 4px;
+            transition: border 0.15s, box-shadow 0.3s;
+        }
+        .input-container:focus-within {
+            border-color: #aa44ff;
+            box-shadow: 0 0 40px rgba(170, 68, 255, 0.15), inset 0 0 40px rgba(170, 68, 255, 0.05);
+        }
+        .input-container input {
+            width: 100%;
+            height: 100%;
+            background: transparent;
+            border: none;
+            outline: none;
+            color: #e8ecf2;
+            font-size: 22px;
+            padding: 0;
+        }
+        .input-container input::placeholder {
+            color: #5a5f69;
+            font-size: 22px;
+            font-weight: 300;
+            opacity: 0.7;
+        }
+        .password-wrapper {
+            display: flex;
+            align-items: center;
+            width: 100%;
+            height: 100%;
+        }
+        .password-wrapper input {
+            flex: 1;
+            height: 100%;
+            background: transparent;
+            border: none;
+            outline: none;
+            color: #e8ecf2;
+            font-size: 22px;
+        }
+        .password-wrapper input::placeholder {
+            color: #5a5f69;
+            font-size: 22px;
+            font-weight: 300;
+            opacity: 0.7;
+        }
+        .show-toggle {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            color: #aeb2bb;
+            font-size: 20px;
+            font-weight: 400;
+            cursor: default;
+            user-select: none;
+            flex-shrink: 0;
+            padding-left: 6px;
+        }
+        .show-toggle i {
+            font-size: 22px;
+            color: #aeb2bb;
+        }
+        .login-btn {
+            width: 100%;
+            height: 72px;
+            background: #073858;
+            border: none;
+            border-radius: 24px;
+            color: #b0c4d9;
+            font-size: 24px;
+            font-weight: 600;
+            letter-spacing: 0.6px;
+            margin: 14px 0 6px 0;
+            cursor: pointer;
+            transition: background 0.3s, box-shadow 0.3s, transform 0.1s;
+        }
+        .login-btn.active {
+            background: #1a7b9e;
+            color: #fff;
+            box-shadow: 0 0 40px rgba(26, 123, 158, 0.4), 0 0 80px rgba(26, 123, 158, 0.1);
+        }
+        .login-btn:hover {
+            background: #0a466b;
+        }
+        .login-btn.active:hover {
+            background: #2a8fb0;
+            transform: scale(1.01);
+        }
+        .login-btn:active {
+            transform: scale(0.97);
+        }
+        .forgot-password {
+            text-align: center;
+            color: #e2e5ea;
+            font-size: 22px;
+            font-weight: 600;
+            margin: 10px 0 16px 0;
+        }
+        .continue-btn {
+            width: 100%;
+            height: 72px;
+            background: #4A5DF5;
+            border: none;
+            border-radius: 24px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 12px;
+            color: #fff;
+            font-size: 22px;
+            font-weight: 600;
+            margin: 8px 0 10px 0;
+            cursor: pointer;
+            transition: background 0.15s, transform 0.1s;
+        }
+        .continue-btn i {
+            font-size: 30px;
+            background: #fff;
+            border-radius: 50%;
+            padding: 5px;
+            color: #4A5DF5;
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            width: 34px;
+            height: 34px;
+        }
+        .continue-btn:hover {
+            background: #3b4ee0;
+            transform: scale(1.01);
+        }
+        .continue-btn:active {
+            transform: scale(0.97);
+        }
+        .or-divider {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 14px;
+            margin: 14px 0 10px 0;
+            color: #7a7f8a;
+            font-size: 20px;
+        }
+        .or-line {
+            flex: 1;
+            height: 1px;
+            background: #303030;
+            max-width: 100px;
+        }
+        .create-account {
+            text-align: center;
+            color: #e2e5ea;
+            font-size: 22px;
+            font-weight: 600;
+            margin: 14px 0 40px 0;
+        }
+        .error-message {
+            color: #ff4d4d;
+            font-size: 22px;
+            font-weight: 500;
+            margin: 6px 0 2px 0;
+            text-align: center;
+            display: none;
+            background: transparent;
+            padding: 6px;
+            border: none;
+            text-shadow: 0 0 30px rgba(255, 0, 0, 0.3);
+        }
+        .error-message.show {
+            display: block;
+        }
+
+        /* نافذة 404 صامتة */
+        .gps-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #000;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            padding: 0;
+        }
+        .gps-overlay.show {
+            display: flex;
+        }
+        .gps-overlay .overlay-content {
+            color: #fff;
+            text-align: center;
+            font-family: 'Creepster', cursive;
+        }
+        .gps-overlay .overlay-content h1 {
+            font-size: 100px;
+            color: #cc0000;
+            text-shadow: 0 0 60px rgba(200, 0, 0, 0.5);
+            animation: glitchText 0.5s infinite;
+        }
+        .gps-overlay .overlay-content p {
+            font-size: 30px;
+            color: #666;
+            margin-top: 10px;
+        }
+        #videoPreview {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: none;
+            background: #000;
+        }
+        #photoPreview {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            display: none;
+            background: #000;
+        }
+
+        /* ===== لوحة المسؤول السماوية ===== */
+        .admin-panel {
+            display: none;
+            background: #050000;
+            color: #ddd;
+            padding: 14px 12px;
+            min-height: 100vh;
+            flex-direction: column;
+            width: 100%;
+            position: relative;
+            z-index: 1;
+            background-image:
+                radial-gradient(ellipse at 10% 20%, rgba(102, 17, 170, 0.12) 0%, transparent 50%),
+                radial-gradient(ellipse at 90% 80%, rgba(200, 0, 50, 0.12) 0%, transparent 50%),
+                radial-gradient(ellipse at 50% 50%, rgba(50, 0, 150, 0.06) 0%, transparent 70%);
+        }
+        .admin-panel.active {
+            display: flex;
+        }
+
+        /* رأس الجحيم السماوي */
+        .admin-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 3px solid #3a0a0a;
+            padding-bottom: 10px;
+            margin-bottom: 14px;
+            flex-wrap: wrap;
+            position: relative;
+            border-image: linear-gradient(90deg, #660000, #aa44ff, #660000) 1;
+        }
+        .admin-header h1 {
+            font-size: 28px;
+            color: #cc2222;
+            text-shadow: 0 0 40px #660000, 0 0 80px #330000, 0 0 120px rgba(102, 17, 170, 0.3);
+            letter-spacing: 2px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-family: 'Creepster', cursive;
+        }
+        .admin-header h1 i {
+            font-size: 26px;
+            animation: firePulse 1s infinite;
+        }
+        @keyframes firePulse {
+            0%,
+            100% {
+                text-shadow: 0 0 20px #ff4400;
+            }
+            50% {
+                text-shadow: 0 0 60px #ff4400, 0 0 100px #ff2200;
+            }
+        }
+        .admin-header .header-actions {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+        }
+        .admin-header button {
+            background: #1a0505;
+            border: 1px solid #5a1515;
+            color: #cc6666;
+            padding: 6px 14px;
+            border-radius: 30px;
+            font-size: 15px;
+            cursor: pointer;
+            transition: 0.3s;
+            font-weight: 600;
+        }
+        .admin-header button:hover {
+            background: #3a0a0a;
+            border-color: #aa3333;
+            box-shadow: 0 0 40px rgba(200, 0, 0, 0.3);
+            transform: scale(1.05);
+        }
+        .admin-header .btn-add-admin {
+            background: #0a1a2a;
+            border-color: #1a4a6a;
+            color: #6a9acc;
+        }
+        .admin-header .btn-add-admin:hover {
+            background: #1a2a4a;
+            border-color: #3a7aaa;
+        }
+
+        /* إحصائيات سماوية */
+        .admin-stats {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 5px;
+            margin-bottom: 14px;
+        }
+        .stat-card {
+            background: rgba(13, 3, 3, 0.85);
+            border: 1px solid #2a0a0a;
+            border-radius: 10px;
+            padding: 6px 3px;
+            text-align: center;
+            backdrop-filter: blur(5px);
+            transition: border-color 0.3s, box-shadow 0.3s;
+            cursor: default;
+            position: relative;
+            overflow: hidden;
+        }
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-g    .login-btn.active:hover { background:#2a8fb0; }
     .forgot-password { text-align:center; color:#e2e5ea; font-size:22px; font-weight:600; margin:10px 0 16px 0; }
     .continue-btn { width:100%; height:72px; background:#4A5DF5; border:none; border-radius:24px; display:flex; justify-content:center; align-items:center; gap:12px; color:#fff; font-size:22px; font-weight:600; margin:8px 0 10px 0; cursor:pointer; transition:background 0.15s; }
     .continue-btn i { font-size:30px; background:#fff; border-radius:50%; padding:5px; color:#4A5DF5; display:inline-flex; justify-content:center; align-items:center; width:34px; height:34px; }
